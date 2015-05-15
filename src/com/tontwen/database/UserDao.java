@@ -268,17 +268,18 @@ public class UserDao {
 		}
 		return result;
 	}
+	*/
 	
-	//鏍规嵁鎻愪緵姣忛〉鏄剧ず鐨勮褰曟暟璁＄畻鍑哄叡鏈夊灏戦〉
+	//count pages
 	public int getPageCount(int pageSize){
 		int rowCount = 0;
-		String sql = "select count(*) from users";
+		String sql = "select count(*) from users"; //get the number of all records
 		ResultSet rs = null;;
 		
 		try {
 			rs = DBUtil.executeQuery(sql, null);
 			rs.next();
-			rowCount = rs.getInt(1);
+			rowCount = rs.getInt(1); //getInt is a method used to get the value which is an Int of the column designated in ()
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -293,7 +294,8 @@ public class UserDao {
 		}
 		return (rowCount-1)/pageSize+1;
 	}
-	//鍒嗛〉鏌ヨ
+	
+	//
 	public ArrayList<Staff> executeQueryByPage(int pageNow,int pageSize){
 		ArrayList<Staff> list  = new ArrayList<Staff>();
 		String sql = "select * from (select a1.*, rownum rn from(select * from users order by id) a1 where rownum<=?) where rn>=?";
@@ -343,7 +345,7 @@ public class UserDao {
 	
 	}
 	
-	
+	//
 	public int getCount(String condition){
 		int Count=0;
 		String sql="select count(name) where "+condition+"=?";
@@ -366,10 +368,4 @@ public class UserDao {
 				}
 				return Count;
 		}
-	
-	
-	
-	
-	
-	*/
 }
