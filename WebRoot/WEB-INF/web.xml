@@ -11,10 +11,21 @@
     <servlet-name>Test</servlet-name>
     <servlet-class>Test</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AllBottle</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.AllBottle</servlet-class>
+  </servlet>
+
 
   <servlet-mapping>
     <servlet-name>Test</servlet-name>
     <url-pattern>/servlet/Test</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AllBottle</servlet-name>
+    <url-pattern>/servlet/AllBottle</url-pattern>
   </servlet-mapping>	
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

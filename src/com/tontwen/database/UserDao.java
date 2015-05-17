@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.tontwen.bottledetection.OperatorInfo;
+import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
 
 @SuppressWarnings("unused")
@@ -294,40 +295,45 @@ public class UserDao {
 		}
 		return (rowCount-1)/pageSize+1;
 	}
-	
-	//
-	public ArrayList<Staff> executeQueryByPage(int pageNow,int pageSize){
-		ArrayList<Staff> list  = new ArrayList<Staff>();
-		String sql = "select * from (select a1.*, rownum rn from(select * from users order by id) a1 where rownum<=?) where rn>=?";
-		String[] parameters= {(pageNow*pageSize)+"",((pageNow-1)*pageSize+1)+""};
+
+	//all bottles by page
+	public ArrayList<BottleInfo_CarInfo> executeAllBottleQueryByPage(int pageNow,int pageSize){
+		ArrayList<BottleInfo_CarInfo> list  = new ArrayList<BottleInfo_CarInfo>();
+		String sql = "select * from (select row_number()over(order by SaveDate DESC)rownumber,* from BottleDetectionLine.dbo.BottleInfo_CarInfo)a where rownumber between ? and ?";
+		String[] parameters= {((pageNow-1)*pageSize+1)+"",(pageNow*pageSize)+""};
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
 			while(rs.next()){
-				Staff user = new Staff();
-				user.setName(rs.getString("name"));
-				user.setSex(rs.getString("sex"));
-				user.setHometown(rs.getString("hometown"));
-				user.setStaffno(rs.getString("staffno"));
-				user.setTelephonenumber(rs.getString("telephonenumber"));
-				user.setId(rs.getString("id"));
-				user.setEducation(rs.getString("education"));
-				user.setSchool(rs.getString("school"));
-				user.setSchooltype(rs.getString("schooltype"));
-				user.setMajor(rs.getString("major"));
-				user.setForeignlanguagelevel(rs.getString("foreignlanguagelevel"));
-				user.setGraduationdate(rs.getString("graduationdate"));
-				user.setTd(rs.getString("td"));
-				user.setEpw(rs.getString("epw"));
-				user.setExp(rs.getString("exp"));
-				user.setTeamname(rs.getString("teamname"));
-				user.setSenddate(rs.getString("senddate"));
-				user.setStafftype(rs.getString("stafftype"));
-				user.setProject(rs.getString("project"));
-				user.setExd(rs.getString("exd"));
-				user.setQexd(rs.getString("qexd"));
-				user.setStaffcondition(rs.getString("staffcondition"));
-				list.add(user);
-				
+				BottleInfo_CarInfo bc = new BottleInfo_CarInfo();
+				bc.setBottleNumber(rs.getString("BottleNumber"));
+				bc.setBottleType(rs.getInt("BottleType"));
+				bc.setBottleMadeCountry(rs.getString("BottleMadeCountry"));
+				bc.setBottleMadeCompany(rs.getString("BottleMadeCompany"));
+				bc.setBottleMadeCompanyID(rs.getString("BottleMadeCompanyID"));
+				bc.setBottleMadeLicense(rs.getString("BottleMadeLicense"));
+				bc.setBottleBelonged(rs.getString("BottleBelonged"));
+				bc.setBottleServiceYears(rs.getInt("BottleServiceYears"));
+				bc.setBottleNominalPressure(rs.getString("BottleNominalPressure"));
+				bc.setBottleWaterTestPressure(rs.getString("BottleWaterTestPressure"));
+				bc.setBottleDesignThickness(rs.getString("BottleDesignThickness"));
+				bc.setBottleActualWeight(rs.getString("BottleActualWeight"));
+				bc.setBottleActualVolume(rs.getString("BottleActualVolume"));
+				//bc.setBottleNominalVolume(rs.getString("BottleNominalVolume"));
+				bc.setBottleMadeDate(rs.getString("BottleMadeDate"));
+				bc.setBottleFirstInstallDate(rs.getString("BottleFirstInstallDate"));
+				bc.setBottleLastCheckDate(rs.getString("BottleLastCheckDate"));
+				bc.setBottleNextCheckDate(rs.getString("BottleNextCheckDate"));
+				bc.setBottleLicense(rs.getString("BottleLicense"));
+				//bc.setBottleGuide(rs.getString("BottleGuide"));
+				bc.setBottleInstall(rs.getString("BottleInstall"));
+				bc.setCarNumber(rs.getString("CarNumber"));
+				bc.setCarType(rs.getInt("CarType"));
+				bc.setCarMadeFactory(rs.getString("CarMadeFactory"));
+				bc.setCarBelongedName(rs.getString("CarBelongedName"));
+				bc.setCarBelongedTel(rs.getString("CarBelongedTel"));
+				bc.setCarBelongedCompany(rs.getString("CarBelongedCompany"));
+				bc.setCarBelongedCompanyAddress(rs.getString("CarBelongedCompanyAddress"));
+				list.add(bc);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -342,10 +348,9 @@ public class UserDao {
 			}
 		}
 		return list;
-	
 	}
 	
-	//
+	//count records
 	public int getCount(String condition){
 		int Count=0;
 		String sql="select count(name) where "+condition+"=?";
