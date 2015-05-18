@@ -3,6 +3,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
@@ -11,11 +12,11 @@ import com.tontwen.database.DBUtil;
 public class UserDao {
 	//login
 	public boolean isLoginSuccess(OperatorInfo op){
+		boolean result = true;
 		String sql = "select * from OperatorInfo where Operatornumber=? and OperatorPwd=?";
 		String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
 		System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
-		boolean result = false;
 		try {
 			if(rs.next()){
 				result = true;
@@ -23,6 +24,7 @@ public class UserDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			result = false;
 		}finally{
 			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 			try {
@@ -248,17 +250,13 @@ public class UserDao {
 		}
 		return user;
 	}
+	*/
 	
-	//鏇存柊-娣诲姞涓�釜鐢ㄦ埛
-	/*public boolean executeAddUser(Staff user){
+	//add new bottle
+	public boolean executeAddBottleInfo(BottleInfo bi){
 		boolean result = true;
-		//鑾峰彇褰撳墠鏃堕棿
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M'鏈�-yyyy"); 
-		String nowTime = simpleDateFormat.format(new java.util.Date());
-		System.out.println(nowTime);
-		
-		String sql = "insert into users(id,username,password,email,hiredate) values(user_seq.nextval,?,?,?,?)";
-		String[] parameters = {user.getUsername(),user.getPassword(),user.getEmail(),nowTime};
+		String sql = "insert into BottleInfo(BottleNumber,CarNumber,BottleType,BottleMadeCountry,BottleMadeCompany,BottleMadeCompanyID,BottleMadeLicense,BottleNominalPressure,BottleWaterTestPressure,BottleDesignThickness,BottleActualWeight,BottleActualVolume,BottleMadeDate,BottleFirstInstallDate,BottleLastCheckDate,BottleNextCheckDate,BottleServiceYears,BottleBelonged,SaveDate,HasDeleted,BottleLicense,BottleGuige,BottleInstall,BottleStdVol) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?)";
+		String[] parameters = {bi.getBottleNumber(),bi.getCarNumber(),Integer.toString(bi.getBottleType()),bi.getBottleMadeCountry(),bi.getBottleMadeCompany(),bi.getBottleMadeCompanyID(),bi.getBottleMadeLicense(),bi.getBottleNominalPressure(),bi.getBottleWaterTestPressure(),bi.getBottleDesignThickness(),bi.getBottleActualWeight(),bi.getBottleActualVolume(),bi.getBottleMadeDate(),bi.getBottleFirstInstallDate(),bi.getBottleLastCheckDate(),bi.getBottleNextCheckDate(),Integer.toString(bi.getBottleServiceYears()),bi.getBottleBelonged(),bi.getSaveDate(),bi.getBottleLicense(),bi.getBottleGuide(),bi.getBottleInstall(),bi.getBottleStdVol()};
 		try{
 			DBUtil.executeUpdate(sql, parameters);
 		}catch(Exception e){
@@ -269,7 +267,7 @@ public class UserDao {
 		}
 		return result;
 	}
-	*/
+	
 	
 	//count pages
 	public int getPageCount(int pageSize){

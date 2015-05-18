@@ -14,7 +14,7 @@ public class BottleInfo_CarInfo {
 	private String BottleDesignThickness;
 	private String BottleActualWeight;
 	private String BottleActualVolume;
-	private String BottleNominalVolume;
+	private String BottleStdVolume;
 	private String BottleMadeDate;
 	private String BottleFirstInstallDate;
 	private String BottleLastCheckDate;
@@ -69,8 +69,8 @@ public class BottleInfo_CarInfo {
 	public String getBottleActualVolume() {
 		return BottleActualVolume;
 	}
-	public String getBottleNominalVolume() {
-		return BottleNominalVolume;
+	public String getBottleStdVolume() {
+		return BottleStdVolume;
 	}
 	public String getBottleMadeDate() {
 		return BottleMadeDate;
@@ -132,8 +132,8 @@ public class BottleInfo_CarInfo {
 	public void setBottleActualVolume(String bottleActualVolume) {
 		BottleActualVolume = bottleActualVolume;
 	}
-	public void setBottleNominalVolume(String bottleNominalVolume) {
-		BottleNominalVolume = bottleNominalVolume;
+	public void setBottleStdVolume(String bottleStdVolume) {
+		BottleStdVolume = bottleStdVolume;
 	}
 	public void setBottleMadeDate(String bottleMadeDate) {
 		BottleMadeDate = bottleMadeDate;
