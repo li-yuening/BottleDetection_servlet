@@ -48,10 +48,11 @@ public class AllBottle extends HttpServlet {
 		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(page,50);
 		String json = new Gson().toJson(list);
 
-		
-		
-		
-		
+		response.setContentType("application/json;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(json);
+		out.flush();
+		out.close();
 	}
 
 	/**
