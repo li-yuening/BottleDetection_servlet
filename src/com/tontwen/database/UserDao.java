@@ -3,6 +3,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import com.tontwen.bottledetection.GlobalDetectWaitedBottle;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
@@ -373,4 +374,34 @@ public class UserDao {
 				}
 				return Count;
 		}
+	
+	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(){
+		ArrayList<GlobalDetectWaitedBottle> list  = new ArrayList<GlobalDetectWaitedBottle>();
+		String sql = "select BottleDetectNumber, BottleNumber, CarNumber, BottleType from  "
+				+ "dbo.BottleInfo_BottleDetectInfo where PreDetectOver="+1+" and GlobalDetectOver="+0;
+		ResultSet rs = DBUtil.executeQuery(sql, null);
+		try {
+			while(rs.next()){
+				GlobalDetectWaitedBottle gd = new GlobalDetectWaitedBottle();
+				gd.setBottleNumber(rs.getString("BottleNumber"));
+				gd.setBottleType(rs.getInt("BottleType"));
+				gd.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				gd.setCarNumber(rs.getString("CarNumber"));
+				list.add(gd);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
 }

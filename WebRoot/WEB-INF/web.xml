@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" 
-	xmlns="http://java.sun.com/xml/ns/javaee" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <display-name></display-name>
   <servlet>
     <description>This is the description of my J2EE component</description>
@@ -17,8 +13,6 @@
     <servlet-name>AllBottle</servlet-name>
     <servlet-class>com.tontwen.bottledetection.AllBottle</servlet-class>
   </servlet>
-
-
   <servlet-mapping>
     <servlet-name>Test</servlet-name>
     <url-pattern>/servlet/Test</url-pattern>
@@ -26,8 +20,18 @@
   <servlet-mapping>
     <servlet-name>AllBottle</servlet-name>
     <url-pattern>/servlet/AllBottle</url-pattern>
-  </servlet-mapping>	
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>GlobalDetect</display-name>
+    <servlet-name>GlobalDetect</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.GlobalDetect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GlobalDetect</servlet-name>
+    <url-pattern>/GlobalDetect</url-pattern>
+  </servlet-mapping>
 </web-app>
