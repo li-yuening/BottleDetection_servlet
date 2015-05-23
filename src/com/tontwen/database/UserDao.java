@@ -219,7 +219,7 @@ public class UserDao {
 	}
 	
 	//excute first-step detection, and return bottle detection number, as well as report number
-	public BottleDetectNumber_RptNo executeChubuPanduan(ChubuPanduanResult cpr){
+	/*public BottleDetectNumber_RptNo executeChubuPanduan(ChubuPanduanResult cpr){
 		BottleDetectNumber_RptNo bnrn = new BottleDetectNumber_RptNo();
 		UserDao ud = new UserDao();
 		String bdn = ud.generateBottleDetectNumber();
@@ -241,17 +241,17 @@ public class UserDao {
 		
 		// TODO Auto-generated method stub
 		String sql = "select m from OperatorInfo where Operatornumber=? and OperatorPwd=?";
-		String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
+		//String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
 		//System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
-		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		//ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
 			if(rs.next()){
-				result = true;
+				//result = true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			result = false;
+			//result = false;
 		}finally{
 			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 			try {
@@ -261,9 +261,9 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
-		return result;
+		//return result;
 		return null;
-	}
+	}*/
 	
 	//get bottles waiting in global detection
 	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(){

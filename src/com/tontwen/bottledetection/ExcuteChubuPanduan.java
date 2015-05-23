@@ -87,8 +87,8 @@ public class ExcuteChubuPanduan extends HttpServlet {
 		
 		ChubuPanduanResult cpResult= new Gson().fromJson(jsonString, new TypeToken<ChubuPanduanResult>(){}.getType());
 		UserDao ud = new UserDao();
-		BottleDetectNumber_RptNo br = ud.executeChubuPanduan(cpResult);
-		System.out.println(br.getBottleDetectNumber()+" "+br.getRptNo());
+		//BottleDetectNumber_RptNo br = ud.executeChubuPanduan(cpResult);
+		//System.out.println(br.getBottleDetectNumber()+" "+br.getRptNo());
 	}
 
 	/**
