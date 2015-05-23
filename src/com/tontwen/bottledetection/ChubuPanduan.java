@@ -51,8 +51,8 @@ public class ChubuPanduan extends HttpServlet {
 			throws ServletException, IOException {
 
 		UserDao ud = new UserDao();
-		ArrayList<BottleInfo> biList = ud.executeQueryBottleCP();
-		System.out.println(biList.get(0).getBottleNumber()+" "+biList.get(0).getCarNumber());
+		ArrayList<BottleInfo_CarInfo> biList = ud.executeQueryBottleCP();
+		//System.out.println(biList.get(0).getBottleNumber()+" "+biList.get(0).getCarNumber());
 		String json = new Gson().toJson(biList);
 		
 		OutputStream stream = response.getOutputStream();

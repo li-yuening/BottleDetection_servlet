@@ -3,7 +3,6 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.tontwen.bottledetection.BottleCP;
 import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
@@ -158,7 +157,7 @@ public class UserDao {
 	}
 	
 	//first-step detection, and insert the result into database
-	/*public boolean executeAddBottleCP(BottleCP bcp){
+	/*public boolean executeChubuPanduan(BottleCP bcp){
 		boolean result = true;
 		String
 		String sql = "insert into BottleInfo(BottleNumber,CarNumber,BottleType,BottleMadeCountry,BottleMadeCompany,BottleMadeCompanyID,BottleMadeLicense,BottleNominalPressure,BottleWaterTestPressure,BottleDesignThickness,BottleActualWeight,BottleActualVolume,BottleMadeDate,BottleFirstInstallDate,BottleLastCheckDate,BottleNextCheckDate,BottleServiceYears,BottleBelonged,SaveDate,HasDeleted,BottleLicense,BottleGuige,BottleInstall,BottleStdVol) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?)";
@@ -174,41 +173,47 @@ public class UserDao {
 		return result;
 	}*/
 	
-	public ArrayList<BottleInfo> executeQueryBottleCP(){
-		ArrayList<BottleInfo> list  = new ArrayList<BottleInfo>();
-		String sql = "select * from BottleInfo where BottleNumber not in (select bottlenumber from BottleInfo_BottleDectectInfo)";
+	public ArrayList<BottleInfo_CarInfo> executeQueryBottleCP(){
+		ArrayList<BottleInfo_CarInfo> list = new ArrayList<BottleInfo_CarInfo>();
+		String sql = "select * from BottleDetectionLine.dbo.BottleInfo_CarInfo where BottleNumber not in (select bottlenumber from BottleDetectionLine.dbo.BottleInfo_BottleDectectInfo)";
 		ResultSet rs = DBUtil.executeQuery(sql,null);
 		try {
 			while(rs.next()){
-				BottleInfo bc = new BottleInfo();
+				BottleInfo_CarInfo bc = new BottleInfo_CarInfo();
 				bc.setBottleNumber(rs.getString("BottleNumber"));
-				bc.setBottleType(rs.getInt("BottleType"));
+				bc.setCarNumber(rs.getString("CarNumber"));
+				bc.setRfidNumber(rs.getString("RFIDNumber"));
 				bc.setBottleMadeCountry(rs.getString("BottleMadeCountry"));
+				bc.setBottleType(rs.getInt("BottleType"));
+				bc.setBottleTypeC(rs.getString("BottleTypeC"));
 				bc.setBottleMadeCompany(rs.getString("BottleMadeCompany"));
 				bc.setBottleMadeCompanyID(rs.getString("BottleMadeCompanyID"));
 				bc.setBottleMadeLicense(rs.getString("BottleMadeLicense"));
-				bc.setBottleBelonged(rs.getString("BottleBelonged"));
-				bc.setBottleServiceYears(rs.getInt("BottleServiceYears"));
 				bc.setBottleNominalPressure(rs.getString("BottleNominalPressure"));
 				bc.setBottleWaterTestPressure(rs.getString("BottleWaterTestPressure"));
 				bc.setBottleDesignThickness(rs.getString("BottleDesignThickness"));
 				bc.setBottleActualWeight(rs.getString("BottleActualWeight"));
 				bc.setBottleActualVolume(rs.getString("BottleActualVolume"));
-				//bc.setBottleNominalVolume(rs.getString("BottleNominalVolume"));
 				bc.setBottleMadeDate(rs.getString("BottleMadeDate"));
 				bc.setBottleFirstInstallDate(rs.getString("BottleFirstInstallDate"));
 				bc.setBottleLastCheckDate(rs.getString("BottleLastCheckDate"));
 				bc.setBottleNextCheckDate(rs.getString("BottleNextCheckDate"));
+				bc.setBottleServiceYears(rs.getInt("BottleServiceYears"));
+				bc.setBottleBelonged(rs.getString("BottleBelonged"));
+				bc.setSaveDate(rs.getString("SaveDate"));
+				bc.setHasDeleted(rs.getInt("HasDeleted"));
 				bc.setBottleLicense(rs.getString("BottleLicense"));
-				//bc.setBottleGuide(rs.getString("BottleGuide"));
+				bc.setBottleGuige(rs.getString("BottleGuige"));
 				bc.setBottleInstall(rs.getString("BottleInstall"));
-				bc.setCarNumber(rs.getString("CarNumber"));
-				/*bc.setCarType(rs.getInt("CarType"));
-				bc.setCarMadeFactory(rs.getString("CarMadeFactory"));
+				bc.setBottleStdVol(rs.getString("BottleStdVol"));
+				bc.setCarInfoID(rs.getString("CarInfoID"));
+				bc.setCarType(rs.getInt("CarType"));
+				bc.setCarTypeC(rs.getString("CarTypeC"));
 				bc.setCarBelongedName(rs.getString("CarBelongedName"));
+				bc.setCarMadeFactory(rs.getString("CarMadeFactory"));
 				bc.setCarBelongedTel(rs.getString("CarBelongedTel"));
+				bc.setCarBelongedCompanyAddress(rs.getString("CarBelongedCompanyAddress"));
 				bc.setCarBelongedCompany(rs.getString("CarBelongedCompany"));
-				bc.setCarBelongedCompanyAddress(rs.getString("CarBelongedCompanyAddress"));*/
 				list.add(bc);
 			}
 		} catch (SQLException e) {

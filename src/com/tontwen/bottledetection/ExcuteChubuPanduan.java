@@ -2,11 +2,17 @@ package com.tontwen.bottledetection;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.tontwen.database.UserDao;
 
 public class ExcuteChubuPanduan extends HttpServlet {
 
@@ -71,9 +77,17 @@ public class ExcuteChubuPanduan extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String json = request.getParameter("content");
-		System.out.println(json);
-		
+		//get post body
+		Map<?, ?> map = request.getParameterMap();
+		Iterator<?> iter = (Iterator<?>) map.keySet().iterator();
+		String jsonString = "";
+		while (iter.hasNext()) {
+			jsonString = iter.next().toString();
+		}
+		BottleDetectNumber_RptNo br = new Gson().fromJson(jsonString, new TypeToken<BottleDetectNumber_RptNo>(){}.getType());
+		UserDao ud = new UserDao();
+		 addResult = ud.executeChubuPanduan(bi);
+		System.out.println(jsonString);
 	}
 
 	/**
