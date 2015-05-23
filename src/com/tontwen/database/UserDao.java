@@ -3,7 +3,9 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
 import com.tontwen.bottledetection.BottleInfo;
+import com.tontwen.bottledetection.ChubuPanduanResult;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
@@ -15,7 +17,7 @@ public class UserDao {
 		boolean result = true;
 		String sql = "select * from OperatorInfo where Operatornumber=? and OperatorPwd=?";
 		String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
-		System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
+		//System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
 			if(rs.next()){
@@ -157,9 +159,10 @@ public class UserDao {
 	}
 	
 	//first-step detection, and insert the result into database
-	/*public boolean executeChubuPanduan(BottleCP bcp){
-		boolean result = true;
-		String
+	public BottleDetectNumber_RptNo executeChubuPanduan(ChubuPanduanResult cpr){
+		BottleDetectNumber_RptNo bnrn = new BottleDetectNumber_RptNo();
+		UserDao ud = new UserDao();
+		String bdn = ud.generateBottleDetectNumber();
 		String sql = "insert into BottleInfo(BottleNumber,CarNumber,BottleType,BottleMadeCountry,BottleMadeCompany,BottleMadeCompanyID,BottleMadeLicense,BottleNominalPressure,BottleWaterTestPressure,BottleDesignThickness,BottleActualWeight,BottleActualVolume,BottleMadeDate,BottleFirstInstallDate,BottleLastCheckDate,BottleNextCheckDate,BottleServiceYears,BottleBelonged,SaveDate,HasDeleted,BottleLicense,BottleGuige,BottleInstall,BottleStdVol) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?)";
 		String[] parameters = {bi.getBottleNumber(),bi.getCarNumber(),Integer.toString(bi.getBottleType()),bi.getBottleMadeCountry(),bi.getBottleMadeCompany(),bi.getBottleMadeCompanyID(),bi.getBottleMadeLicense(),bi.getBottleNominalPressure(),bi.getBottleWaterTestPressure(),bi.getBottleDesignThickness(),bi.getBottleActualWeight(),bi.getBottleActualVolume(),bi.getBottleMadeDate(),bi.getBottleFirstInstallDate(),bi.getBottleLastCheckDate(),bi.getBottleNextCheckDate(),Integer.toString(bi.getBottleServiceYears()),bi.getBottleBelonged(),bi.getSaveDate(),bi.getBottleLicense(),bi.getBottleGuide(),bi.getBottleInstall(),bi.getBottleStdVol()};
 		try{
@@ -171,8 +174,36 @@ public class UserDao {
 			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 		}
 		return result;
-	}*/
+	}
 	
+	private String generateBottleDetectNumber() {
+		
+		// TODO Auto-generated method stub
+		String sql = "select m from OperatorInfo where Operatornumber=? and OperatorPwd=?";
+		String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
+		//System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			if(rs.next()){
+				result = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			result = false;
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+		return null;
+	}
+
 	public ArrayList<BottleInfo_CarInfo> executeQueryBottleCP(){
 		ArrayList<BottleInfo_CarInfo> list = new ArrayList<BottleInfo_CarInfo>();
 		String sql = "select * from BottleDetectionLine.dbo.BottleInfo_CarInfo where BottleNumber not in (select bottlenumber from BottleDetectionLine.dbo.BottleInfo_BottleDectectInfo)";

@@ -84,10 +84,11 @@ public class ExcuteChubuPanduan extends HttpServlet {
 		while (iter.hasNext()) {
 			jsonString = iter.next().toString();
 		}
-		BottleDetectNumber_RptNo br = new Gson().fromJson(jsonString, new TypeToken<BottleDetectNumber_RptNo>(){}.getType());
+		
+		ChubuPanduanResult cpResult= new Gson().fromJson(jsonString, new TypeToken<ChubuPanduanResult>(){}.getType());
 		UserDao ud = new UserDao();
-		 addResult = ud.executeChubuPanduan(bi);
-		System.out.println(jsonString);
+		BottleDetectNumber_RptNo br = ud.executeChubuPanduan(cpResult);
+		System.out.println(br.getBottleDetectNumber()+" "+br.getRptNo());
 	}
 
 	/**
