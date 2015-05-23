@@ -377,8 +377,8 @@ public class UserDao {
 	
 	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(){
 		ArrayList<GlobalDetectWaitedBottle> list  = new ArrayList<GlobalDetectWaitedBottle>();
-		String sql = "select BottleDetectNumber, BottleNumber, CarNumber, BottleType from  "
-				+ "dbo.BottleInfo_BottleDetectInfo where PreDetectOver="+1+" and GlobalDetectOver="+0;
+		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber ,BottleType  from dbo.BottleInfo_BottleDectectInfo "
+				+ "where PreDetectOver =1 and GlobalDetectOver=0";
 		ResultSet rs = DBUtil.executeQuery(sql, null);
 		try {
 			while(rs.next()){
