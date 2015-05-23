@@ -1,22 +1,21 @@
 package com.tontwen.bottledetection;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
+//import java.io.PrintWriter;
+//import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tontwen.bottledetection.BottleInfo;
-import com.tontwen.database.UserDao;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.reflect.TypeToken;
+import com.tontwen.database.UserDao;
 
-import java.text.SimpleDateFormat;
-//import java.util.ArrayList;
-
-public class AddBottle extends HttpServlet {
+public class ChubuPanduan extends HttpServlet {
 
 	/**
 	 * 
@@ -26,7 +25,7 @@ public class AddBottle extends HttpServlet {
 	/**
 	 * Constructor of the object.
 	 */
-	public AddBottle() {
+	public ChubuPanduan() {
 		super();
 	}
 
@@ -51,19 +50,13 @@ public class AddBottle extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the GET method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
-		out.flush();
-		out.close();
+		UserDao ud = new UserDao();
+		ArrayList<BottleInfo_CarInfo> biList = ud.executeQueryBottleCP();
+		//System.out.println(biList.get(0).getBottleNumber()+" "+biList.get(0).getCarNumber());
+		String json = new Gson().toJson(biList);
+		
+		OutputStream stream = response.getOutputStream();
+		stream.write(json.getBytes("UTF-8"));
 	}
 
 	/**
@@ -78,17 +71,8 @@ public class AddBottle extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String json = request.getParameter("content");
-		BottleInfo bi = new Gson().fromJson(json, new TypeToken<BottleInfo>(){}.getType());
-		//System.out.println(bi.getCarNumber());
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-		String nowTime = simpleDateFormat.format(new java.util.Date());
-		//System.out.println(nowTime);
-		bi.setSaveDate(nowTime);
-		UserDao ud = new UserDao();
-		boolean addResult = ud.executeAddBottleInfoCarInfo(bi);
-		System.out.println(addResult);
+
+		this.doGet(request,response);
 	}
 
 	/**

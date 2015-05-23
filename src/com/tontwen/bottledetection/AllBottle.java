@@ -1,6 +1,7 @@
 package com.tontwen.bottledetection;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -46,13 +47,17 @@ public class AllBottle extends HttpServlet {
 		int page = Integer.parseInt(request.getParameter("page"));
 		UserDao ud = new UserDao();
 		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(page,50);
+		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
-
-		response.setContentType("application/json;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.println(json);
-		out.flush();
-		out.close();
+		
+		OutputStream stream = response.getOutputStream();
+		stream.write(json.getBytes("UTF-8"));
+		
+//		response.setContentType("text/html;charset=utf-8");
+//		PrintWriter out = response.getWriter();
+//		out.println(json);
+//		out.flush();
+//		out.close();
 	}
 
 	/**

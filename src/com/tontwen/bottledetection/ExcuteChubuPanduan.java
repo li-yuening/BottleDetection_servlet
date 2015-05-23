@@ -2,21 +2,19 @@ package com.tontwen.bottledetection;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tontwen.bottledetection.BottleInfo;
-import com.tontwen.database.UserDao;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tontwen.database.UserDao;
 
-import java.text.SimpleDateFormat;
-//import java.util.ArrayList;
-
-public class AddBottle extends HttpServlet {
+public class ExcuteChubuPanduan extends HttpServlet {
 
 	/**
 	 * 
@@ -26,7 +24,7 @@ public class AddBottle extends HttpServlet {
 	/**
 	 * Constructor of the object.
 	 */
-	public AddBottle() {
+	public ExcuteChubuPanduan() {
 		super();
 	}
 
@@ -78,17 +76,19 @@ public class AddBottle extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String json = request.getParameter("content");
-		BottleInfo bi = new Gson().fromJson(json, new TypeToken<BottleInfo>(){}.getType());
-		//System.out.println(bi.getCarNumber());
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-		String nowTime = simpleDateFormat.format(new java.util.Date());
-		//System.out.println(nowTime);
-		bi.setSaveDate(nowTime);
+
+		//get post body
+		Map<?, ?> map = request.getParameterMap();
+		Iterator<?> iter = (Iterator<?>) map.keySet().iterator();
+		String jsonString = "";
+		while (iter.hasNext()) {
+			jsonString = iter.next().toString();
+		}
+		
+		ChubuPanduanResult cpResult= new Gson().fromJson(jsonString, new TypeToken<ChubuPanduanResult>(){}.getType());
 		UserDao ud = new UserDao();
-		boolean addResult = ud.executeAddBottleInfoCarInfo(bi);
-		System.out.println(addResult);
+		BottleDetectNumber_RptNo br = ud.executeChubuPanduan(cpResult);
+		System.out.println(br.getBottleDetectNumber()+" "+br.getRptNo());
 	}
 
 	/**

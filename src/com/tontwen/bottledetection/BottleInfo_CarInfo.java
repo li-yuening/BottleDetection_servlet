@@ -1,201 +1,243 @@
 package com.tontwen.bottledetection;
 
 public class BottleInfo_CarInfo {
-	private String BottleNumber;
-	private int BottleType;
-	private String BottleMadeCountry;
-	private String BottleMadeCompany;
-	private String BottleMadeCompanyID;
-	private String BottleMadeLicense;
-	private String BottleBelonged;
-	private int BottleServiceYears;
-	private String BottleNominalPressure;
-	private String BottleWaterTestPressure;
-	private String BottleDesignThickness;
-	private String BottleActualWeight;
-	private String BottleActualVolume;
-	private String BottleStdVolume;
-	private String BottleMadeDate;
-	private String BottleFirstInstallDate;
-	private String BottleLastCheckDate;
-	private String BottleNextCheckDate;
-	private String BottleLicense;
-	private String BottleGuide;
-	private String BottleInstall;
-	private String CarNumber;
-	private int CarType;
-	private String CarMadeFactory;
-	private String CarBelongedName;
-	private String CarBelongedTel;
-	private String CarBelongedCompany;
-	private String CarBelongedCompanyAddress;
+	private String bottleNumber;
+	private String carNumber;
+	private String rfidNumber;
+	private String bottleMadeCountry;
+	private int bottleType;
+	private String bottleTypeC;
+	private String bottleMadeCompany;
+	private String bottleMadeCompanyID;
+	private String bottleMadeLicense;
+	private String bottleNominalPressure;
+	private String bottleWaterTestPressure;
+	private String bottleDesignThickness;
+	private String bottleActualWeight;
+	private String bottleActualVolume;
+	private String bottleMadeDate;
+	private String bottleFirstInstallDate;
+	private String bottleLastCheckDate;
+	private String bottleNextCheckDate;
+	private int bottleServiceYears;
+	private String bottleBelonged;
+	private String saveDate;
+	private int hasDeleted;
+	private String bottleLicense;
+	private String bottleGuige;
+	private String bottleInstall;
+	private String bottleStdVol;
+	private String carInfoID;
+	private int carType;
+	private String carTypeC;
+	private String carBelongedName;
+	private String carMadeFactory;
+	private String carBelongedTel;
+	private String carBelongedCompanyAddress;
+	private String carBelongedCompany;
 	
 	public String getBottleNumber() {
-		return BottleNumber;
-	}
-	public int getBottleType() {
-		return BottleType;
-	}
-	public String getBottleMadeCountry() {
-		return BottleMadeCountry;
-	}
-	public String getBottleMadeCompany() {
-		return BottleMadeCompany;
-	}
-	public String getBottleMadeCompanyID() {
-		return BottleMadeCompanyID;
-	}
-	public String getBottleMadeLicense() {
-		return BottleMadeLicense;
-	}
-	public String getBottleBelonged() {
-		return BottleBelonged;
-	}
-	public int getBottleServiceYears() {
-		return BottleServiceYears;
-	}
-	public String getBottleNominalPressure() {
-		return BottleNominalPressure;
-	}
-	public String getBottleWaterTestPressure() {
-		return BottleWaterTestPressure;
-	}
-	public String getBottleDesignThickness() {
-		return BottleDesignThickness;
-	}
-	public String getBottleActualWeight() {
-		return BottleActualWeight;
-	}
-	public String getBottleActualVolume() {
-		return BottleActualVolume;
-	}
-	public String getBottleStdVolume() {
-		return BottleStdVolume;
-	}
-	public String getBottleMadeDate() {
-		return BottleMadeDate;
-	}
-	public String getBottleFirstInstallDate() {
-		return BottleFirstInstallDate;
-	}
-	public String getBottleLastCheckDate() {
-		return BottleLastCheckDate;
-	}
-	public String getBottleNextCheckDate() {
-		return BottleNextCheckDate;
-	}
-	public String getBottleLicense() {
-		return BottleLicense;
-	}
-	public String getBottleGuide() {
-		return BottleGuide;
-	}
-	public String getBottleInstall() {
-		return BottleInstall;
+		return bottleNumber;
 	}
 	public void setBottleNumber(String bottleNumber) {
-		BottleNumber = bottleNumber;
-	}
-	public void setBottleType(int bottleType) {
-		BottleType = bottleType;
-	}
-	public void setBottleMadeCountry(String bottleMadeCountry) {
-		BottleMadeCountry = bottleMadeCountry;
-	}
-	public void setBottleMadeCompany(String bottleMadeCompany) {
-		BottleMadeCompany = bottleMadeCompany;
-	}
-	public void setBottleMadeCompanyID(String bottleMadeCompanyID) {
-		BottleMadeCompanyID = bottleMadeCompanyID;
-	}
-	public void setBottleMadeLicense(String bottleMadeLicense) {
-		BottleMadeLicense = bottleMadeLicense;
-	}
-	public void setBottleBelonged(String bottleBelonged) {
-		BottleBelonged = bottleBelonged;
-	}
-	public void setBottleServiceYears(int bottleServiceYears) {
-		BottleServiceYears = bottleServiceYears;
-	}
-	public void setBottleNominalPressure(String bottleNominalPressure) {
-		BottleNominalPressure = bottleNominalPressure;
-	}
-	public void setBottleWaterTestPressure(String bottleWaterTestPressure) {
-		BottleWaterTestPressure = bottleWaterTestPressure;
-	}
-	public void setBottleDesignThickness(String bottleDesignThickness) {
-		BottleDesignThickness = bottleDesignThickness;
-	}
-	public void setBottleActualWeight(String bottleActualWeight) {
-		BottleActualWeight = bottleActualWeight;
-	}
-	public void setBottleActualVolume(String bottleActualVolume) {
-		BottleActualVolume = bottleActualVolume;
-	}
-	public void setBottleStdVolume(String bottleStdVolume) {
-		BottleStdVolume = bottleStdVolume;
-	}
-	public void setBottleMadeDate(String bottleMadeDate) {
-		BottleMadeDate = bottleMadeDate;
-	}
-	public void setBottleFirstInstallDate(String bottleFirstInstallDate) {
-		BottleFirstInstallDate = bottleFirstInstallDate;
-	}
-	public void setBottleLastCheckDate(String bottleLastCheckDate) {
-		BottleLastCheckDate = bottleLastCheckDate;
-	}
-	public void setBottleNextCheckDate(String bottleNextCheckDate) {
-		BottleNextCheckDate = bottleNextCheckDate;
-	}
-	public void setBottleLicense(String bottleLicense) {
-		BottleLicense = bottleLicense;
-	}
-	public void setBottleGuide(String bottleGuide) {
-		BottleGuide = bottleGuide;
-	}
-	public void setBottleInstall(String bottleInstall) {
-		BottleInstall = bottleInstall;
+		this.bottleNumber = bottleNumber;
 	}
 	public String getCarNumber() {
-		return CarNumber;
-	}
-	public int getCarType() {
-		return CarType;
-	}
-	public String getCarMadeFactory() {
-		return CarMadeFactory;
-	}
-	public String getCarBelongedName() {
-		return CarBelongedName;
-	}
-	public String getCarBelongedTel() {
-		return CarBelongedTel;
-	}
-	public String getCarBelongedCompany() {
-		return CarBelongedCompany;
-	}
-	public String getCarBelongedCompanyAddress() {
-		return CarBelongedCompanyAddress;
+		return carNumber;
 	}
 	public void setCarNumber(String carNumber) {
-		CarNumber = carNumber;
+		this.carNumber = carNumber;
+	}
+	public String getRfidNumber() {
+		return rfidNumber;
+	}
+	public void setRfidNumber(String rfidNumber) {
+		this.rfidNumber = rfidNumber;
+	}
+	public String getBottleMadeCountry() {
+		return bottleMadeCountry;
+	}
+	public void setBottleMadeCountry(String bottleMadeCountry) {
+		this.bottleMadeCountry = bottleMadeCountry;
+	}
+	public int getBottleType() {
+		return bottleType;
+	}
+	public void setBottleType(int bottleType) {
+		this.bottleType = bottleType;
+	}
+	public String getBottleTypeC() {
+		return bottleTypeC;
+	}
+	public void setBottleTypeC(String bottleTypeC) {
+		this.bottleTypeC = bottleTypeC;
+	}
+	public String getBottleMadeCompany() {
+		return bottleMadeCompany;
+	}
+	public void setBottleMadeCompany(String bottleMadeCompany) {
+		this.bottleMadeCompany = bottleMadeCompany;
+	}
+	public String getBottleMadeCompanyID() {
+		return bottleMadeCompanyID;
+	}
+	public void setBottleMadeCompanyID(String bottleMadeCompanyID) {
+		this.bottleMadeCompanyID = bottleMadeCompanyID;
+	}
+	public String getBottleMadeLicense() {
+		return bottleMadeLicense;
+	}
+	public void setBottleMadeLicense(String bottleMadeLicense) {
+		this.bottleMadeLicense = bottleMadeLicense;
+	}
+	public String getBottleNominalPressure() {
+		return bottleNominalPressure;
+	}
+	public void setBottleNominalPressure(String bottleNominalPressure) {
+		this.bottleNominalPressure = bottleNominalPressure;
+	}
+	public String getBottleWaterTestPressure() {
+		return bottleWaterTestPressure;
+	}
+	public void setBottleWaterTestPressure(String bottleWaterTestPressure) {
+		this.bottleWaterTestPressure = bottleWaterTestPressure;
+	}
+	public String getBottleDesignThickness() {
+		return bottleDesignThickness;
+	}
+	public void setBottleDesignThickness(String bottleDesignThickness) {
+		this.bottleDesignThickness = bottleDesignThickness;
+	}
+	public String getBottleActualWeight() {
+		return bottleActualWeight;
+	}
+	public void setBottleActualWeight(String bottleActualWeight) {
+		this.bottleActualWeight = bottleActualWeight;
+	}
+	public String getBottleActualVolume() {
+		return bottleActualVolume;
+	}
+	public void setBottleActualVolume(String bottleActualVolume) {
+		this.bottleActualVolume = bottleActualVolume;
+	}
+	public String getBottleMadeDate() {
+		return bottleMadeDate;
+	}
+	public void setBottleMadeDate(String bottleMadeDate) {
+		this.bottleMadeDate = bottleMadeDate;
+	}
+	public String getBottleFirstInstallDate() {
+		return bottleFirstInstallDate;
+	}
+	public void setBottleFirstInstallDate(String bottleFirstInstallDate) {
+		this.bottleFirstInstallDate = bottleFirstInstallDate;
+	}
+	public String getBottleLastCheckDate() {
+		return bottleLastCheckDate;
+	}
+	public void setBottleLastCheckDate(String bottleLastCheckDate) {
+		this.bottleLastCheckDate = bottleLastCheckDate;
+	}
+	public String getBottleNextCheckDate() {
+		return bottleNextCheckDate;
+	}
+	public void setBottleNextCheckDate(String bottleNextCheckDate) {
+		this.bottleNextCheckDate = bottleNextCheckDate;
+	}
+	public int getBottleServiceYears() {
+		return bottleServiceYears;
+	}
+	public void setBottleServiceYears(int bottleServiceYears) {
+		this.bottleServiceYears = bottleServiceYears;
+	}
+	public String getBottleBelonged() {
+		return bottleBelonged;
+	}
+	public void setBottleBelonged(String bottleBelonged) {
+		this.bottleBelonged = bottleBelonged;
+	}
+	public String getSaveDate() {
+		return saveDate;
+	}
+	public void setSaveDate(String saveDate) {
+		this.saveDate = saveDate;
+	}
+	public int getHasDeleted() {
+		return hasDeleted;
+	}
+	public void setHasDeleted(int hasDeleted) {
+		this.hasDeleted = hasDeleted;
+	}
+	public String getBottleLicense() {
+		return bottleLicense;
+	}
+	public void setBottleLicense(String bottleLicense) {
+		this.bottleLicense = bottleLicense;
+	}
+	public String getBottleGuige() {
+		return bottleGuige;
+	}
+	public void setBottleGuige(String bottleGuige) {
+		this.bottleGuige = bottleGuige;
+	}
+	public String getBottleInstall() {
+		return bottleInstall;
+	}
+	public void setBottleInstall(String bottleInstall) {
+		this.bottleInstall = bottleInstall;
+	}
+	public String getBottleStdVol() {
+		return bottleStdVol;
+	}
+	public void setBottleStdVol(String bottleStdVol) {
+		this.bottleStdVol = bottleStdVol;
+	}
+	public String getCarInfoID() {
+		return carInfoID;
+	}
+	public void setCarInfoID(String carInfoID) {
+		this.carInfoID = carInfoID;
+	}
+	public int getCarType() {
+		return carType;
 	}
 	public void setCarType(int carType) {
-		CarType = carType;
+		this.carType = carType;
 	}
-	public void setCarMadeFactory(String carMadeFactory) {
-		CarMadeFactory = carMadeFactory;
+	public String getCarTypeC() {
+		return carTypeC;
+	}
+	public void setCarTypeC(String carTypeC) {
+		this.carTypeC = carTypeC;
+	}
+	public String getCarBelongedName() {
+		return carBelongedName;
 	}
 	public void setCarBelongedName(String carBelongedName) {
-		CarBelongedName = carBelongedName;
+		this.carBelongedName = carBelongedName;
+	}
+	public String getCarMadeFactory() {
+		return carMadeFactory;
+	}
+	public void setCarMadeFactory(String carMadeFactory) {
+		this.carMadeFactory = carMadeFactory;
+	}
+	public String getCarBelongedTel() {
+		return carBelongedTel;
 	}
 	public void setCarBelongedTel(String carBelongedTel) {
-		CarBelongedTel = carBelongedTel;
+		this.carBelongedTel = carBelongedTel;
 	}
-	public void setCarBelongedCompany(String carBelongedCompany) {
-		CarBelongedCompany = carBelongedCompany;
+	public String getCarBelongedCompanyAddress() {
+		return carBelongedCompanyAddress;
 	}
 	public void setCarBelongedCompanyAddress(String carBelongedCompanyAddress) {
-		CarBelongedCompanyAddress = carBelongedCompanyAddress;
+		this.carBelongedCompanyAddress = carBelongedCompanyAddress;
+	}
+	public String getCarBelongedCompany() {
+		return carBelongedCompany;
+	}
+	public void setCarBelongedCompany(String carBelongedCompany) {
+		this.carBelongedCompany = carBelongedCompany;
 	}
 }
