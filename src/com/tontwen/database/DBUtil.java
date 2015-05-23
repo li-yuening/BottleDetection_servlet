@@ -1,9 +1,7 @@
 package com.tontwen.database;
-import java.io.InputStream;
 import java.sql.*;
-import java.util.Properties;
 
-@SuppressWarnings("unused")
+
 public class DBUtil {
 	private static Connection conn=null;
 	private static PreparedStatement ps = null;//sql command line

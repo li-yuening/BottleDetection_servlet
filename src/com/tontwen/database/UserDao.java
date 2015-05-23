@@ -16,7 +16,7 @@ import com.tontwen.database.DBUtil;
 public class UserDao {
 	//login
 	public boolean isLoginSuccess(OperatorInfo op){
-		boolean result = true;
+		boolean result = false;
 		String sql = "select * from OperatorInfo where Operatornumber=? and OperatorPwd=?";
 		String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
 		//System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
@@ -159,7 +159,7 @@ public class UserDao {
 		}
 		return Count;
 	}
-	
+
 	//return bottles waiting in first-step detection
 	public ArrayList<BottleInfo_CarInfo> executeQueryBottleCP(){
 		ArrayList<BottleInfo_CarInfo> list = new ArrayList<BottleInfo_CarInfo>();
@@ -218,73 +218,75 @@ public class UserDao {
 		}
 		return list;
 	}
-	
+
 	//Execute first-step detection, and return bottle detection number, as well as report number
 	public BottleDetectNumber_RptNo executeChubuPanduan(ChubuPanduanResult cpr){
-		
+
+		//System.out.println("cpResult = " + cpr.getPreDetectResult());
 		BottleDetectNumber_RptNo bnrn = new BottleDetectNumber_RptNo();
 		UserDao ud = new UserDao();
 		String bdn = ud.generateBottleDetectNumber(cpr.getBottleType());
 		String rptNo = ud.generateRptNo(cpr.getCarNumber());
-		
+
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
-		
+
 		String sql = "";
-		String[] parameters = {bdn,cpr.getBottleNumber(),nowTime,rptNo};
-		
-		if (cpr.getPreDetectResult() == "0") {
+
+		if (Integer.parseInt(cpr.getPreDetectResult()) == 1) {
 			sql = "insert BottleDetectionLine.dbo.BottleDetectInfo(BottleDetectNumber,BottleNumber,FinalDetectResult,HasInstalled,BottleDetectStatus,PreDetectResult,PreDetectDetail,PreDetectOver,PreDetectOperator,PreDetectDate,GlobalDetectOver,NoneDestructiveOver,WeightVacuumOver,WaterTestOver,ThicknessResult,InnerDryOver,BottleValveChangeOver,AirProofTestResult,AirProofTestOver,VacuumPressure,VacuumOver,PreMemo,GlobalSub1,GlobalSub2,GlobalSub3,GlobalSub4,GlobalSub5,GlobalSub6,HasWriteRFID,RptNo,OperateState,HasPrint,CheckState) values(?,?,'-',0,0,1,'',1,'管理员',?,0,0,0,0,2,0,0,'待检',0,0.09,0,'',1,1,1,1,1,1,0,?,0,0,0)";
-			
-		}else if (cpr.getPreDetectResult() == "1") {
-			sql = "insert BottleDetectionLine.dbo.BottleDetectInfo(BottleDetectNumber,BottleNumber,FinalDetectResult,FinalDetectDate,HasInstalled,BottleDetectStatus,PreDetectResult,PreDetectDetail,PreDetectOver,PreDetectOperator,PreDetectDate,GlobalDetectOver,NoneDestructiveOver,WeightVacuumOver,WaterTestOver,ThicknessResult,InnerDryOver,BottleValveChangeOver,AirProofTestResult,AirProofTestOver,VacuumOver,PreMemo,GlobalSub1,GlobalSub2,GlobalSub3,GlobalSub4,GlobalSub5,GlobalSub6,HasWriteRFID,FailPos,RptNo,OperateState,HasPrint,CheckState) values(?,?,'判废',?,0,0,0,'气瓶标志不清晰',1,'管理员',?,0,0,0,0,2,0,0,'待检',0,0,'',1,1,1,1,1,1,0,'CP',?,0,0,0)";
-		}
-		try{
+			String[] parameters = {bdn,cpr.getBottleNumber(),nowTime,rptNo};
 			DBUtil.executeUpdate(sql, parameters);
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		}else if (Integer.parseInt(cpr.getPreDetectResult()) == 0) {
+			sql = "insert BottleDetectionLine.dbo.BottleDetectInfo(BottleDetectNumber,BottleNumber,FinalDetectResult,FinalDetectDate,HasInstalled,BottleDetectStatus,PreDetectResult,PreDetectDetail,PreDetectOver,PreDetectOperator,PreDetectDate,GlobalDetectOver,NoneDestructiveOver,WeightVacuumOver,WaterTestOver,ThicknessResult,InnerDryOver,BottleValveChangeOver,AirProofTestResult,AirProofTestOver,VacuumOver,PreMemo,GlobalSub1,GlobalSub2,GlobalSub3,GlobalSub4,GlobalSub5,GlobalSub6,HasWriteRFID,FailPos,RptNo,OperateState,HasPrint,CheckState) values(?,?,'判废',?,0,0,0,'气瓶标志不清晰',1,'管理员',?,0,0,0,0,2,0,0,'待检',0,0,'',1,1,1,1,1,1,0,'CP',?,0,0,0)";
+			String[] parameters2 = {bdn,cpr.getBottleNumber(),nowTime,nowTime,rptNo};
+			//System.out.println(sql);
+			DBUtil.executeUpdate(sql, parameters2);
 		}
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+
 		bnrn.setBottleDetectNumber(bdn);
 		bnrn.setRptNo(rptNo);
+
 		return bnrn;
 	}
 
 	//generate Bottle Detection Number
-	private String generateBottleDetectNumber(String bottleType) {
+	private String generateBottleDetectNumber(int bottleType) {
 		String tmpNumber;
-		String maxNumber = "";
+		String maxNumber = null;
 		int maxNumberInt;
-		
+
 		//generate xx15000001
-		if (bottleType == "0") {
-			tmpNumber = "CR";
-		}else if (bottleType == "1") {
+		if (bottleType == 0) {
 			tmpNumber = "GP";
+		}else if (bottleType == 1) {
+			tmpNumber = "CR";
 		}else {
 			tmpNumber = "WZ";
 		}
-		
+
 		//generate GPxx000001
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
-		tmpNumber = tmpNumber + nowTime.substring(2, 3);
-		
-		String sql = "select max(BottleDetectNumber)as max_CLN from BottleDetectionLine.dbo.BottleDetectInfo where BottleDetectNumber like '?%'";
+		tmpNumber = tmpNumber + nowTime.substring(2, 4);
+
+		//convert to no parameters
+		String sql = "select max(BottleDetectNumber)as max_CLN from BottleDetectionLine.dbo.BottleDetectInfo where BottleDetectNumber like '";
+		sql = sql + tmpNumber +"%'";
 		String[] parameters = {tmpNumber};
-		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		ResultSet rs = DBUtil.executeQuery(sql, null);
 		try {
 			if(rs.next()){
 				maxNumber = rs.getString("max_CLN");
-			}else {
-				maxNumber = tmpNumber.substring(0,1) + nowTime.substring(2, 3) + "000000";
+				if (maxNumber == null) {
+					maxNumber = tmpNumber.substring(0,2) + nowTime.substring(2, 4) + "000000";
+				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//result = false;
-		}finally{
+			e1.printStackTrace();
+		} finally {
 			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 			try {
 				rs.close();
@@ -293,7 +295,7 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
-		
+
 		//generate GP15xxxxxx
 		maxNumberInt = Integer.parseInt(maxNumber.substring(4)) + 1;
 		if (maxNumberInt < 10) {
@@ -309,55 +311,64 @@ public class UserDao {
 		}else if (maxNumberInt < 1000000) {
 			tmpNumber = tmpNumber + Integer.toString(maxNumberInt);
 		}
-		
 		return tmpNumber;
 	}
-	
+
 	//generate Report Number
 	private String generateRptNo(String carNumber) {
-		String maxNumber;
+		String maxNumber = null;
+		String tmpNumber = null;
 		int maxNumberInt;
-		String tmpNumber;
-		
+
 		//tmpNumber generates in the format QP2015
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
-		tmpNumber = "QP" + nowTime.substring(0, 3);
-		
-		String sql = "select max(RptNo)as max_CLN from BottleDetectionLine.dbo.RptInfo where RptNo like 'QP?%' and CarNumber = ? and FinalDetectResult = '-'";
-		String[] parameters = {nowTime.substring(0, 3),carNumber};
-		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+
+		String sql = "select max(RptNo)as max_CLN from BottleDetectionLine.dbo.RptInfo where RptNo like 'QP";
+		sql = sql + nowTime.substring(0,4) + "%' and CarNumber = '";
+		sql = sql + carNumber + "' and FinalDetectResult = '-'";
+
+		ResultSet rs = DBUtil.executeQuery("select max(RptNo)as max_CLN from BottleDetectionLine.dbo.RptInfo where RptNo like 'QP" + nowTime.substring(0,4) + "%' and CarNumber = '" + carNumber + "' and FinalDetectResult = '-'", null);
 		try {
 			if(rs.next()){
 				//get max report number of this car
 				tmpNumber = rs.getString("max_CLN");
-			}else {
-				//get max report number in BottleDetectInfo
-				sql = "select max(RptNo)as max_CLN from BottleDetectionLine.dbo.BottleDetectInfo where RptNo like '?%'";
-				String[] para2 = {nowTime.substring(0, 3)};
-				rs = DBUtil.executeQuery(sql, parameters);
-				maxNumber = rs.getString("max_CLN");
-				
-				//generate GP2015xxxxxx
-				maxNumberInt = Integer.parseInt(maxNumber.substring(6)) + 1;
-				if (maxNumberInt < 10) {
-					tmpNumber = tmpNumber + "00000" + Integer.toString(maxNumberInt);
-				}else if (maxNumberInt < 100) {
-					tmpNumber = tmpNumber + "0000" + Integer.toString(maxNumberInt);
-				}else if (maxNumberInt < 1000) {
-					tmpNumber = tmpNumber + "000" + Integer.toString(maxNumberInt);
-				}else if (maxNumberInt < 10000) {
-					tmpNumber = tmpNumber + "00" + Integer.toString(maxNumberInt);
-				}else if (maxNumberInt < 100000) {
-					tmpNumber = tmpNumber + "0" + Integer.toString(maxNumberInt);
-				}else if (maxNumberInt < 1000000) {
-					tmpNumber = tmpNumber + Integer.toString(maxNumberInt);
+				if (tmpNumber == null) {
+					sql = "select max(RptNo)as max_CLN from BottleDetectionLine.dbo.BottleDetectInfo where RptNo like '";
+					sql = sql + "QP" + nowTime.substring(0,4) + "%'";
+					//System.out.println(sql);
+					rs = DBUtil.executeQuery(sql, null);
+					try {
+						if(rs.next()){
+							//get max report number in BottleDetectInfo
+							maxNumber = rs.getString("max_CLN");
+							tmpNumber = "QP" + nowTime.substring(0, 4);
+
+							//generate GP2015xxxxxx
+							maxNumberInt = Integer.parseInt(maxNumber.substring(6)) + 1;
+							if (maxNumberInt < 10) {
+								tmpNumber = tmpNumber + "00000" + Integer.toString(maxNumberInt);
+							}else if (maxNumberInt < 100) {
+								tmpNumber = tmpNumber + "0000" + Integer.toString(maxNumberInt);
+							}else if (maxNumberInt < 1000) {
+								tmpNumber = tmpNumber + "000" + Integer.toString(maxNumberInt);
+							}else if (maxNumberInt < 10000) {
+								tmpNumber = tmpNumber + "00" + Integer.toString(maxNumberInt);
+							}else if (maxNumberInt < 100000) {
+								tmpNumber = tmpNumber + "0" + Integer.toString(maxNumberInt);
+							}else if (maxNumberInt < 1000000) {
+								tmpNumber = tmpNumber + Integer.toString(maxNumberInt);
+							}
+						} 
+					}catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			} 
+		}catch (SQLException e) {
 			e.printStackTrace();
-			//result = false;
 		}finally{
 			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 			try {
@@ -369,7 +380,7 @@ public class UserDao {
 		}
 		return tmpNumber;
 	}
-	
+
 	//get bottles waiting in global detection
 	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(){
 		ArrayList<GlobalDetectWaitedBottle> list  = new ArrayList<GlobalDetectWaitedBottle>();

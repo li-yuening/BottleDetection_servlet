@@ -3,9 +3,6 @@ package com.tontwen.bottledetection;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -77,14 +74,19 @@ public class ExecuteChubuPanduan extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		//get post body
-		Map<?, ?> map = request.getParameterMap();
-		Iterator<?> iter = (Iterator<?>) map.keySet().iterator();
 		String jsonString = "";
+		/*//get post body without parameters
+		Map<?, ?> map = request.getParameterMap();
+		
+		Iterator<?> iter = (Iterator<?>) map.keySet().iterator();
+		
 		while (iter.hasNext()) {
 			jsonString = iter.next().toString();
-		}
+		}*/
+		
+		request.setCharacterEncoding("UTF-8");
+		jsonString = request.getParameter("content");
+		//System.out.println(jsonString);
 		
 		ChubuPanduanResult cpResult= new Gson().fromJson(jsonString, new TypeToken<ChubuPanduanResult>(){}.getType());
 		UserDao ud = new UserDao();

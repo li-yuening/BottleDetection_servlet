@@ -2,7 +2,7 @@ package com.tontwen.bottledetection;
 
 public class ChubuPanduanResult {
 	private String bottleNumber;
-	private String bottleType;
+	private int bottleType;
 	private String carNumber;
 	private String preDetectResult;
 	
@@ -12,10 +12,10 @@ public class ChubuPanduanResult {
 	public void setBottleNumber(String bottleNumber) {
 		this.bottleNumber = bottleNumber;
 	}
-	public String getBottleType() {
+	public int getBottleType() {
 		return bottleType;
 	}
-	public void setBottleType(String bottleType) {
+	public void setBottleType(int bottleType) {
 		this.bottleType = bottleType;
 	}
 	public String getCarNumber() {
