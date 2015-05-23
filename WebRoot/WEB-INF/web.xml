@@ -23,6 +23,20 @@
     <servlet-name>AddBottle</servlet-name>
     <servlet-class>com.tontwen.bottledetection.AddBottle</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ChubuPanduan</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.ChubuPanduan</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ExcuteChubuPanduan</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.ExcuteChubuPanduan</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -37,6 +51,14 @@
   <servlet-mapping>
     <servlet-name>AddBottle</servlet-name>
     <url-pattern>/servlet/AddBottle</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChubuPanduan</servlet-name>
+    <url-pattern>/servlet/ChubuPanduan</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExcuteChubuPanduan</servlet-name>
+    <url-pattern>/servlet/ExcuteChubuPanduan</url-pattern>
   </servlet-mapping>	
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
