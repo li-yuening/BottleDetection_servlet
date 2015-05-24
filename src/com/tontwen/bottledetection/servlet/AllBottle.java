@@ -1,28 +1,26 @@
-package com.tontwen.bottledetection;
+package com.tontwen.bottledetection.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.tontwen.database.UserDao;
+import com.tontwen.bottledetection.BottleInfo_CarInfo;
 
-public class ExecuteChubuPanduan extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class AllBottle extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public ExecuteChubuPanduan() {
+	public AllBottle() {
 		super();
 	}
 
@@ -46,20 +44,20 @@ public class ExecuteChubuPanduan extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the GET method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
-		out.flush();
-		out.close();
+		int page = Integer.parseInt(request.getParameter("page"));
+		UserDao ud = new UserDao();
+		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(page,50);
+		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
+		String json = new Gson().toJson(list);
+		
+		OutputStream stream = response.getOutputStream();
+		stream.write(json.getBytes("UTF-8"));
+		
+//		response.setContentType("text/html;charset=utf-8");
+//		PrintWriter out = response.getWriter();
+//		out.println(json);
+//		out.flush();
+//		out.close();
 	}
 
 	/**
@@ -74,28 +72,20 @@ public class ExecuteChubuPanduan extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String jsonString = "";
-		/*//get post body without parameters
-		Map<?, ?> map = request.getParameterMap();
-		
-		Iterator<?> iter = (Iterator<?>) map.keySet().iterator();
-		
-		while (iter.hasNext()) {
-			jsonString = iter.next().toString();
-		}*/
-		
-		request.setCharacterEncoding("UTF-8");
-		jsonString = request.getParameter("content");
-		//System.out.println(jsonString);
-		
-		ChubuPanduanResult cpResult= new Gson().fromJson(jsonString, new TypeToken<ChubuPanduanResult>(){}.getType());
-		UserDao ud = new UserDao();
-		BottleDetectNumber_RptNo br = ud.executeChubuPanduan(cpResult);
-		System.out.println(br.getBottleDetectNumber()+" "+br.getRptNo());
-		
-		String json = new Gson().toJson(br);
-		OutputStream stream = response.getOutputStream();
-		stream.write(json.getBytes("UTF-8"));
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the POST method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**

@@ -4,37 +4,27 @@
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>Test</servlet-name>
-    <servlet-class>Test</servlet-class>
-  </servlet>
-  <servlet>
-    <description>This is the description of my J2EE component</description>
-    <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>AllBottle</servlet-name>
-    <servlet-class>com.tontwen.bottledetection.AllBottle</servlet-class>
+    <servlet-class>com.tontwen.bottledetection.servlet.AllBottle</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>AddBottle</servlet-name>
-    <servlet-class>com.tontwen.bottledetection.AddBottle</servlet-class>
+    <servlet-class>com.tontwen.bottledetection.servlet.AddBottle</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>ChubuPanduan</servlet-name>
-    <servlet-class>com.tontwen.bottledetection.ChubuPanduan</servlet-class>
+    <servlet-class>com.tontwen.bottledetection.servlet.ChubuPanduan</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>ExecuteChubuPanduan</servlet-name>
-    <servlet-class>com.tontwen.bottledetection.ExecuteChubuPanduan</servlet-class>
+    <servlet-class>com.tontwen.bottledetection.servlet.ExecuteChubuPanduan</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Test</servlet-name>
-    <url-pattern>/servlet/Test</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AllBottle</servlet-name>
     <url-pattern>/servlet/AllBottle</url-pattern>
@@ -58,20 +48,20 @@
     <description></description>
     <display-name>GlobalDetect</display-name>
     <servlet-name>GlobalDetect</servlet-name>
-    <servlet-class>com.tontwen.bottledetection.GlobalDetect</servlet-class>
+    <servlet-class>com.tontwen.bottledetection.servlet.GlobalDetect</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GlobalDetect</servlet-name>
-    <url-pattern>/GlobalDetect</url-pattern>
+    <url-pattern>/servlet/GlobalDetect</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>Login</display-name>
     <servlet-name>Login</servlet-name>
-    <servlet-class>com.tontwen.bottledetection.Login</servlet-class>
+    <servlet-class>com.tontwen.bottledetection.servlet.Login</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
-    <url-pattern>/Login</url-pattern>
+    <url-pattern>/servlet/Login</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -387,11 +387,13 @@ public class UserDao {
 	}
 
 	//get bottles waiting in global detection
-	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(){
+	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(String bottleType){
+		
 		ArrayList<GlobalDetectWaitedBottle> list  = new ArrayList<GlobalDetectWaitedBottle>();
 		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber ,BottleType  from dbo.BottleInfo_BottleDectectInfo "
-				+ "where PreDetectOver =1 and GlobalDetectOver=0";
-		ResultSet rs = DBUtil.executeQuery(sql, null);
+				+ "where PreDetectOver =1 and GlobalDetectOver=0 and BottleType = ?";
+		String[] parameters = {bottleType};
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
 			while(rs.next()){
 				GlobalDetectWaitedBottle gd = new GlobalDetectWaitedBottle();

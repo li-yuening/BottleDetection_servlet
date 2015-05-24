@@ -1,4 +1,4 @@
-package com.tontwen.bottledetection;
+package com.tontwen.bottledetection.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.database.UserDao;
 
 /**
@@ -34,8 +34,7 @@ public class Login extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String operatorNumber=request.getParameter("operatorNumber");
 		String operatorPwd=request.getParameter("operatorPwd");
-		operatorNumber="0000001";
-		operatorPwd="admin";
+		System.out.println(operatorNumber);
 		UserDao ud=new UserDao();
 		OperatorInfo oi=ud.checkLogin(operatorNumber, operatorPwd);
 		String json;

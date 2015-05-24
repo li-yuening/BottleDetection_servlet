@@ -1,4 +1,4 @@
-package com.tontwen.bottledetection;
+package com.tontwen.bottledetection.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.tontwen.bottledetection.GlobalDetectWaitedBottle;
 import com.tontwen.database.UserDao;
 
 /**
@@ -35,10 +36,10 @@ public class GlobalDetect extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String bottleType = request.getParameter("bottleType");
 		UserDao ud=new UserDao();
 		ArrayList<GlobalDetectWaitedBottle> list=new ArrayList<GlobalDetectWaitedBottle>();
-		list=ud.executeAllGlobalDetectWaitedBottleQuery();
+		list=ud.executeAllGlobalDetectWaitedBottleQuery(bottleType);
 		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
 		OutputStream stream = response.getOutputStream();

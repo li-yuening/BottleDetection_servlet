@@ -1,4 +1,4 @@
-package com.tontwen.bottledetection;
+package com.tontwen.bottledetection.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
