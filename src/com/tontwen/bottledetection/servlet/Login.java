@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String operatorNumber=request.getParameter("operatorNumber");
 		String operatorPwd=request.getParameter("operatorPwd");
-		System.out.println(operatorNumber);
+		//System.out.println(operatorNumber);
 		UserDao ud=new UserDao();
 		OperatorInfo oi=ud.checkLogin(operatorNumber, operatorPwd);
 		String json;

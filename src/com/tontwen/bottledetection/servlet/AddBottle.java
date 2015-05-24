@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tontwen.bottledetection.BottleInfo;
+import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.UserDao;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -80,14 +80,14 @@ public class AddBottle extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String json = request.getParameter("content");
-		BottleInfo bi = new Gson().fromJson(json, new TypeToken<BottleInfo>(){}.getType());
+		BottleInfo_CarInfo bc = new Gson().fromJson(json, new TypeToken<BottleInfo_CarInfo>(){}.getType());
 		//System.out.println(bi.getCarNumber());
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
 		//System.out.println(nowTime);
-		bi.setSaveDate(nowTime);
+		bc.setSaveDate(nowTime);
 		UserDao ud = new UserDao();
-		boolean addResult = ud.executeAddBottleInfoCarInfo(bi);
+		boolean addResult = ud.executeAddBottleInfoCarInfo(bc);
 		System.out.println(addResult);
 	}
 
