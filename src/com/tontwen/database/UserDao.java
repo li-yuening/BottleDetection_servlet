@@ -49,7 +49,14 @@ public class UserDao {
 	public boolean executeAddBottleInfoCarInfo(BottleInfo_CarInfo bc){
 		boolean result = true;
 		String sql = "insert into BottleInfo_CarInfo(BottleNumber,CarNumber,BottleType,BottleMadeCountry,BottleMadeCompany,BottleMadeCompanyID,BottleMadeLicense,BottleNominalPressure,BottleWaterTestPressure,BottleDesignThickness,BottleActualWeight,BottleActualVolume,BottleMadeDate,BottleFirstInstallDate,BottleLastCheckDate,BottleNextCheckDate,BottleServiceYears,BottleBelonged,SaveDate,HasDeleted,BottleLicense,BottleGuige,BottleInstall,BottleStdVol) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?)";
-		String[] parameters = {bc.getBottleNumber(),bc.getCarNumber(),Integer.toString(bc.getBottleType()),bc.getBottleMadeCountry(),bc.getBottleMadeCompany(),bc.getBottleMadeCompanyID(),bc.getBottleMadeLicense(),bc.getBottleNominalPressure(),bc.getBottleWaterTestPressure(),bc.getBottleDesignThickness(),bc.getBottleActualWeight(),bc.getBottleActualVolume(),bc.getBottleMadeDate(),bc.getBottleFirstInstallDate(),bc.getBottleLastCheckDate(),bc.getBottleNextCheckDate(),Integer.toString(bc.getBottleServiceYears()),bc.getBottleBelonged(),bc.getSaveDate(),bc.getBottleLicense(),bc.getBottleGuige(),bc.getBottleInstall(),bc.getBottleStdVol()};
+		String[] parameters = {bc.getBottleNumber(),bc.getCarNumber(),Integer.toString(bc.getBottleType
+()),bc.getBottleMadeCountry(),bc.getBottleMadeCompany(),bc.getBottleMadeCompanyID(),bc.
+getBottleMadeLicense(),bc.getBottleNominalPressure(),bc.getBottleWaterTestPressure(),bc.
+getBottleDesignThickness(),bc.getBottleActualWeight(),bc.getBottleActualVolume(),bc.
+getBottleMadeDate(),bc.getBottleFirstInstallDate(),bc.getBottleLastCheckDate(),bc.
+getBottleNextCheckDate(),Integer.toString(bc.getBottleServiceYears()),bc.getBottleBelonged(),bc.
+getSaveDate(),bc.getBottleLicense(),bc.getBottleGuige(),bc.getBottleInstall(),bc.getBottleStdVol
+()};
 		try{
 			DBUtil.executeUpdate(sql, parameters);
 		}catch(Exception e){
@@ -68,7 +75,9 @@ public class UserDao {
 				//update car info
 				sql = "update BottleDetectionLine.dbo.CarInfo set CarType = ?, CarBelongedCompany = ?, CarBelongedCompanyAddress = ?, CarBelongedTel = ?, CarMadeFactory = ?, CarBelongedName = ? where CarNumber = ?";
 				//String[] parameters3 = {"4","陈","","","","","川A12000"};
-				String[] parameters3 = {Integer.toString(bc.getCarType()),bc.getCarBelongedCompany(),bc.getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.getCarMadeFactory(),bc.getCarBelongedName(),bc.getCarNumber()};
+				String[] parameters3 = {Integer.toString(bc.getCarType()),bc.getCarBelongedCompany(),bc.
+getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.getCarMadeFactory(),bc.
+getCarBelongedName(),bc.getCarNumber()};
 				try{
 					DBUtil.executeUpdate(sql, parameters3);
 				}catch(Exception e){
@@ -79,7 +88,9 @@ public class UserDao {
 				}
 			}else{
 				sql = "insert into BottleDetectionLine.dbo.CarInfo values(?,?,?,?,?,?,?,0,0)";
-				String[] parameters4 = {bc.getCarNumber(),Integer.toString(bc.getCarType()),bc.getCarBelongedCompany(),bc.getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.getCarMadeFactory(),bc.getCarBelongedName()};
+				String[] parameters4 = {bc.getCarNumber(),Integer.toString(bc.getCarType()),bc.
+getCarBelongedCompany(),bc.getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.
+getCarMadeFactory(),bc.getCarBelongedName()};
 				try{
 					DBUtil.executeUpdate(sql, parameters4);
 				}catch(Exception e){
@@ -115,33 +126,39 @@ public class UserDao {
 			while(rs.next()){
 				BottleInfo_CarInfo bc = new BottleInfo_CarInfo();
 				bc.setBottleNumber(rs.getString("BottleNumber"));
-				bc.setBottleType(rs.getInt("BottleType"));
+				bc.setCarNumber(rs.getString("CarNumber"));
+				bc.setRfidNumber(rs.getString("RFIDNumber"));
 				bc.setBottleMadeCountry(rs.getString("BottleMadeCountry"));
+				bc.setBottleType(rs.getInt("BottleType"));
+				bc.setBottleTypeC(rs.getString("BottleTypeC"));
 				bc.setBottleMadeCompany(rs.getString("BottleMadeCompany"));
 				bc.setBottleMadeCompanyID(rs.getString("BottleMadeCompanyID"));
 				bc.setBottleMadeLicense(rs.getString("BottleMadeLicense"));
-				bc.setBottleBelonged(rs.getString("BottleBelonged"));
-				bc.setBottleServiceYears(rs.getInt("BottleServiceYears"));
 				bc.setBottleNominalPressure(rs.getString("BottleNominalPressure"));
 				bc.setBottleWaterTestPressure(rs.getString("BottleWaterTestPressure"));
 				bc.setBottleDesignThickness(rs.getString("BottleDesignThickness"));
 				bc.setBottleActualWeight(rs.getString("BottleActualWeight"));
 				bc.setBottleActualVolume(rs.getString("BottleActualVolume"));
-				//bc.setBottleNominalVolume(rs.getString("BottleNominalVolume"));
 				bc.setBottleMadeDate(rs.getString("BottleMadeDate"));
 				bc.setBottleFirstInstallDate(rs.getString("BottleFirstInstallDate"));
 				bc.setBottleLastCheckDate(rs.getString("BottleLastCheckDate"));
 				bc.setBottleNextCheckDate(rs.getString("BottleNextCheckDate"));
+				bc.setBottleServiceYears(rs.getInt("BottleServiceYears"));
+				bc.setBottleBelonged(rs.getString("BottleBelonged"));
+				bc.setSaveDate(rs.getString("SaveDate"));
+				bc.setHasDeleted(rs.getInt("HasDeleted"));
 				bc.setBottleLicense(rs.getString("BottleLicense"));
-				//bc.setBottleGuide(rs.getString("BottleGuide"));
+				bc.setBottleGuige(rs.getString("BottleGuige"));
 				bc.setBottleInstall(rs.getString("BottleInstall"));
-				bc.setCarNumber(rs.getString("CarNumber"));
+				bc.setBottleStdVol(rs.getString("BottleStdVol"));
+				bc.setCarInfoID(rs.getString("CarInfoID"));
 				bc.setCarType(rs.getInt("CarType"));
-				bc.setCarMadeFactory(rs.getString("CarMadeFactory"));
+				bc.setCarTypeC(rs.getString("CarTypeC"));
 				bc.setCarBelongedName(rs.getString("CarBelongedName"));
+				bc.setCarMadeFactory(rs.getString("CarMadeFactory"));
 				bc.setCarBelongedTel(rs.getString("CarBelongedTel"));
-				bc.setCarBelongedCompany(rs.getString("CarBelongedCompany"));
 				bc.setCarBelongedCompanyAddress(rs.getString("CarBelongedCompanyAddress"));
+				bc.setCarBelongedCompany(rs.getString("CarBelongedCompany"));
 				list.add(bc);
 			}
 		} catch (SQLException e) {
@@ -162,7 +179,7 @@ public class UserDao {
 	//count pages
 	public int getPageCount(int pageSize){
 		int rowCount = 0;
-		String sql = "select count(*) from users"; //get the number of all records
+		String sql = "select count(*) from BottleDetectionLine.dbo.BottleInfo_CarInfo"; //get the number of all records
 		ResultSet rs = null;;
 
 		try {
@@ -430,7 +447,8 @@ public class UserDao {
 	}
 
 	//get bottles waiting in global detection
-	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(String bottleType){
+	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(String bottleType
+){
 
 		ArrayList<GlobalDetectWaitedBottle> list  = new ArrayList<GlobalDetectWaitedBottle>();
 		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber ,BottleType  from dbo.BottleInfo_BottleDectectInfo "
@@ -602,11 +620,18 @@ public class UserDao {
 	public boolean executeUpdate(Staff user){
 		boolean result = true;
 		System.out.println(user.getStaffno());
-		String sql = "update STAFF set NAME=?,sex=?,hometown=?,telephonenumber=?,id=?,education=?,school=?,schooltype=?,major=?,foreignlanguagelevel=?,graduationdate=?,td=?,epw=?,exp=?,teamname=?,senddate=?,stafftype=?,project=?,exd=?,qexd=?,staffcondition=? where staffno=?";
+		String sql = "update STAFF set 
+NAME=?,sex=?,hometown=?,telephonenumber=?,id=?,education=?,school=?,schooltype=?,major=?,foreignl
+anguagelevel=?,graduationdate=?,td=?,epw=?,exp=?,teamname=?,senddate=?,stafftype=?,project=?,exd=
+?,qexd=?,staffcondition=? where staffno=?";
 		String[] parameters = {user.getName(),user.getSex(),user.getHometown(),user.getTelephonenumber(),
 				user.getId(),user.getEducation(),user.getSchool(),user.getSchooltype(),user.getMajor(),
-				user.getForeignlanguagelevel(),user.getGraduationdate(),user.getTd(),user.getEpw(),user.getExp(),
-				user.getTeamname(),user.getSenddate(),user.getStafftype(),user.getProject(),user.getExd(),user.getQexd(),user.getStaffcondition(),user.getStaffno()};
+				
+user.getForeignlanguagelevel(),user.getGraduationdate(),user.getTd(),user.getEpw(),user.g
+etExp(),
+				
+user.getTeamname(),user.getSenddate(),user.getStafftype(),user.getProject(),user.getExd()
+,user.getQexd(),user.getStaffcondition(),user.getStaffno()};
 
 		try{
 			DBUtil.executeUpdate(sql,parameters);

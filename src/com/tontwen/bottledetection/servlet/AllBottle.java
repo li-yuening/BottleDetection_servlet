@@ -46,9 +46,14 @@ public class AllBottle extends HttpServlet {
 			throws ServletException, IOException {
 		int page = Integer.parseInt(request.getParameter("page"));
 		UserDao ud = new UserDao();
-		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(page,50);
-		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
+		int pageInTable = ud.getPageCount(10);
+		
+		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(page,10);
+		//System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
+		
+		//Append strings
+		json = "{\"pageInTable\":" + Integer.toString(pageInTable) + ",\"content\":" + json + "}";
 		
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
