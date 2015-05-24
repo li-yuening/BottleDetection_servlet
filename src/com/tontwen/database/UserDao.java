@@ -15,20 +15,25 @@ import com.tontwen.database.DBUtil;
 @SuppressWarnings("unused")
 public class UserDao {
 	//login
-	public boolean isLoginSuccess(OperatorInfo op){
-		boolean result = false;
+	public OperatorInfo checkLogin(String operatorNumber,String operatorPwd){
 		String sql = "select * from OperatorInfo where Operatornumber=? and OperatorPwd=?";
-		String[] parameters = {op.getOperatorNumber(),op.getOperatorPwd()};
+		String[] parameters = {operatorNumber,operatorPwd};
 		//System.out.println(op.getOperatorNumber()+" "+op.getOperatorPwd());
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		OperatorInfo operatorInfo=new OperatorInfo();
 		try {
 			if(rs.next()){
-				result = true;
+				operatorInfo.setOperatorName(rs.getString("OperatorName"));
+				operatorInfo.setOperatorNumber(rs.getString("Operatornumber"));
+				operatorInfo.setOperatorPwd(rs.getString("OperatorPwd"));
+				operatorInfo.setOperatorRights(rs.getString("OperatorRights"));
+				return operatorInfo;
+			}else{
+				return null;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			result = false;
 		}finally{
 			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 			try {
@@ -38,7 +43,7 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
-		return result;
+		return null;
 	}
 
 	//add new bottle
