@@ -49,14 +49,7 @@ public class UserDao {
 	public boolean executeAddBottleInfoCarInfo(BottleInfo_CarInfo bc){
 		boolean result = true;
 		String sql = "insert into BottleInfo_CarInfo(BottleNumber,CarNumber,BottleType,BottleMadeCountry,BottleMadeCompany,BottleMadeCompanyID,BottleMadeLicense,BottleNominalPressure,BottleWaterTestPressure,BottleDesignThickness,BottleActualWeight,BottleActualVolume,BottleMadeDate,BottleFirstInstallDate,BottleLastCheckDate,BottleNextCheckDate,BottleServiceYears,BottleBelonged,SaveDate,HasDeleted,BottleLicense,BottleGuige,BottleInstall,BottleStdVol) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?)";
-		String[] parameters = {bc.getBottleNumber(),bc.getCarNumber(),Integer.toString(bc.getBottleType
-()),bc.getBottleMadeCountry(),bc.getBottleMadeCompany(),bc.getBottleMadeCompanyID(),bc.
-getBottleMadeLicense(),bc.getBottleNominalPressure(),bc.getBottleWaterTestPressure(),bc.
-getBottleDesignThickness(),bc.getBottleActualWeight(),bc.getBottleActualVolume(),bc.
-getBottleMadeDate(),bc.getBottleFirstInstallDate(),bc.getBottleLastCheckDate(),bc.
-getBottleNextCheckDate(),Integer.toString(bc.getBottleServiceYears()),bc.getBottleBelonged(),bc.
-getSaveDate(),bc.getBottleLicense(),bc.getBottleGuige(),bc.getBottleInstall(),bc.getBottleStdVol
-()};
+		String[] parameters = {bc.getBottleNumber(),bc.getCarNumber(),Integer.toString(bc.getBottleType()),bc.getBottleMadeCountry(),bc.getBottleMadeCompany(),bc.getBottleMadeCompanyID(),bc.getBottleMadeLicense(),bc.getBottleNominalPressure(),bc.getBottleWaterTestPressure(),bc.getBottleDesignThickness(),bc.getBottleActualWeight(),bc.getBottleActualVolume(),bc.getBottleMadeDate(),bc.getBottleFirstInstallDate(),bc.getBottleLastCheckDate(),bc.getBottleNextCheckDate(),Integer.toString(bc.getBottleServiceYears()),bc.getBottleBelonged(),bc.getSaveDate(),bc.getBottleLicense(),bc.getBottleGuige(),bc.getBottleInstall(),bc.getBottleStdVol()};
 		try{
 			DBUtil.executeUpdate(sql, parameters);
 		}catch(Exception e){
@@ -75,9 +68,7 @@ getSaveDate(),bc.getBottleLicense(),bc.getBottleGuige(),bc.getBottleInstall(),bc
 				//update car info
 				sql = "update BottleDetectionLine.dbo.CarInfo set CarType = ?, CarBelongedCompany = ?, CarBelongedCompanyAddress = ?, CarBelongedTel = ?, CarMadeFactory = ?, CarBelongedName = ? where CarNumber = ?";
 				//String[] parameters3 = {"4","陈","","","","","川A12000"};
-				String[] parameters3 = {Integer.toString(bc.getCarType()),bc.getCarBelongedCompany(),bc.
-getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.getCarMadeFactory(),bc.
-getCarBelongedName(),bc.getCarNumber()};
+				String[] parameters3 = {Integer.toString(bc.getCarType()),bc.getCarBelongedCompany(),bc.getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.getCarMadeFactory(),bc.getCarBelongedName(),bc.getCarNumber()};
 				try{
 					DBUtil.executeUpdate(sql, parameters3);
 				}catch(Exception e){
@@ -88,9 +79,7 @@ getCarBelongedName(),bc.getCarNumber()};
 				}
 			}else{
 				sql = "insert into BottleDetectionLine.dbo.CarInfo values(?,?,?,?,?,?,?,0,0)";
-				String[] parameters4 = {bc.getCarNumber(),Integer.toString(bc.getCarType()),bc.
-getCarBelongedCompany(),bc.getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.
-getCarMadeFactory(),bc.getCarBelongedName()};
+				String[] parameters4 = {bc.getCarNumber(),Integer.toString(bc.getCarType()),bc.getCarBelongedCompany(),bc.getCarBelongedCompanyAddress(),bc.getCarBelongedTel(),bc.getCarMadeFactory(),bc.getCarBelongedName()};
 				try{
 					DBUtil.executeUpdate(sql, parameters4);
 				}catch(Exception e){
@@ -228,7 +217,7 @@ getCarMadeFactory(),bc.getCarBelongedName()};
 	//return bottles waiting in first-step detection
 	public ArrayList<BottleInfo_CarInfo> executeQueryBottleCP(){
 		ArrayList<BottleInfo_CarInfo> list = new ArrayList<BottleInfo_CarInfo>();
-		String sql = "select * from BottleDetectionLine.dbo.BottleInfo_CarInfo where BottleNumber not in (select bottlenumber from BottleDetectionLine.dbo.BottleInfo_BottleDectectInfo)";
+		String sql = "select * from BottleDetectionLine.dbo.BottleInfo_CarInfo where BottleNumber not in (select bottlenumber from BottleDetectionLine.dbo.BottleInfo_BottleDectectInfo) order by SaveDate desc";
 		ResultSet rs = DBUtil.executeQuery(sql,null);
 		try {
 			while(rs.next()){
@@ -447,8 +436,7 @@ getCarMadeFactory(),bc.getCarBelongedName()};
 	}
 
 	//get bottles waiting in global detection
-	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(String bottleType
-){
+	public ArrayList<GlobalDetectWaitedBottle> executeAllGlobalDetectWaitedBottleQuery(String bottleType){
 
 		ArrayList<GlobalDetectWaitedBottle> list  = new ArrayList<GlobalDetectWaitedBottle>();
 		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber ,BottleType  from dbo.BottleInfo_BottleDectectInfo "

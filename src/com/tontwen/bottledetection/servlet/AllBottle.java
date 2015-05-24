@@ -44,11 +44,12 @@ public class AllBottle extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int page = Integer.parseInt(request.getParameter("page"));
+		String page = request.getParameter("page");
+		System.out.println(page);
 		UserDao ud = new UserDao();
 		int pageInTable = ud.getPageCount(10);
-		
-		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(page,10);
+		int pageInt = Integer.parseInt(page);
+		ArrayList<BottleInfo_CarInfo> list = ud.executeAllBottleQueryByPage(pageInt,10);
 		//System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
 		
