@@ -3,11 +3,13 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+
 //import com.sun.crypto.provider.RSACipher;
 import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
 //import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.GlobalDetectWaitedBottle;
 import com.tontwen.bottledetection.ChubuPanduanResult;
+import com.tontwen.bottledetection.GlobalDetectionResult;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
@@ -465,6 +467,63 @@ public class UserDao {
 			}
 		}
 		return list;
+	}
+	
+	public int executeGlobalDetect(GlobalDetectionResult gdr){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String detectDetailResult=gdr.getDetectDetailResult();
+		String globalSub1,globalSub2,globalSub3,globalSub4,globalSub5,globalSub6;
+		String sql="";
+		if(gdr.getBottleType()==0){
+			int globalDetectResult0=detectDetailResult=="111111" ? 1 : 0;
+			globalSub1=detectDetailResult.substring(0, 1);
+			globalSub2=detectDetailResult.substring(1, 2);
+			globalSub3=detectDetailResult.substring(2, 3);
+			globalSub4=detectDetailResult.substring(3, 4);
+			globalSub5=detectDetailResult.substring(4, 5);
+			globalSub6=detectDetailResult.substring(5, 6);
+			if(globalDetectResult0==0){
+				sql="update BottleDetectInfo set FinalDetectResult='判废', FinalDetectDate=?, GlobalDetectDetailResult=?,"
+						+ "AppearDetail=?, SoundDetail=?, WhorlDetail=?, InnerDetail=?, GlobalDetectOver=1, GlobalDetectResult=0,"
+						+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub1=?, GlobalSub2=?, GlobalSub3=?, GlobalSub4=?,"
+						+ "GlobalSub5=?, GlobalSub6=?, GlobalSub5Detail=?, GlobalSub6Detail=?, FailPos='HG'"
+						+ "where BottleDetectNumber=?";
+				String[] parameters1={nowTime,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),gdr.getInnerDetail(),gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,globalSub4,globalSub5,globalSub6,gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters1);
+			}else{
+				sql="update BottleDetectInfo set GlobalDetectDetailResult=?,"
+						+ "AppearDetail=?, SoundDetail=?, WhorlDetail=?, InnerDetail=?, GlobalDetectOver=1, GlobalDetectResult=1,"
+						+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub5Detail=?, GlobalSub6Detail=?"
+						+ "where BottleDetectNumber=?";
+				String[] parameters2={detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),gdr.getInnerDetail(),gdr.getOperatorName(),nowTime,gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters2);
+			}
+		}else{
+			int globalDetectResult1=detectDetailResult=="111" ? 1 : 0;
+			globalSub1=detectDetailResult.substring(0, 1);
+			globalSub2=detectDetailResult.substring(1, 2);
+			globalSub3=detectDetailResult.substring(2, 3);
+			if(globalDetectResult1==0){
+				sql="update BottleDetectInfo set FinalDetectResult='判废', FinalDetectDate=?, GlobalDetectDetailResult=?,"
+						+ "AppearDetail=?, SoundDetail=?, GlobalDetectOver=1, GlobalDetectResult=0,"
+						+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub1=?, GlobalSub2=?, GlobalSub3=?, FailPos='HG'"
+						+ "where BottleDetectNumber=?";
+				String[] parameters3={nowTime,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters3);
+			}else{
+				sql="update BottleDetectInfo set GlobalDetectDetailResult=?,"
+						+ "AppearDetail=?, SoundDetail=?, GlobalDetectOver=1, GlobalDetectResult=1,"
+						+ "GlobalDetectOperator=?, GlobalDetectDate=?"
+						+ "where BottleDetectNumber=?";
+				String[] parameters4={detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getOperatorName(),nowTime,gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters4);
+			}
+		}
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
 	}
 
 	/*public Staff execute(Staff user){

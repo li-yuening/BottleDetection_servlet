@@ -40,7 +40,7 @@
   <servlet-mapping>
     <servlet-name>ExecuteChubuPanduan</servlet-name>
     <url-pattern>/servlet/ExecuteChubuPanduan</url-pattern>
-  </servlet-mapping>	
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
@@ -63,5 +63,15 @@
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/servlet/Login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ExecuteGlobalDetection</display-name>
+    <servlet-name>ExecuteGlobalDetection</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.ExecuteGlobalDetection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExecuteGlobalDetection</servlet-name>
+    <url-pattern>/ExecuteGlobalDetection</url-pattern>
   </servlet-mapping>
 </web-app>
