@@ -45,7 +45,7 @@ public class AllBottle extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String page = request.getParameter("page");
-		System.out.println(page);
+		//System.out.println(page);
 		UserDao ud = new UserDao();
 		int pageInTable = ud.getPageCount(10);
 		int pageInt = Integer.parseInt(page);

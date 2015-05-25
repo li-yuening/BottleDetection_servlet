@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
 
 		String operatorNumber = li.getOperatorNumber();
 		String operatorPwd = li.getOperatorPwd();
-		System.out.println(operatorNumber + operatorPwd);
+		//System.out.println(operatorNumber + operatorPwd);
 		//System.out.println(operatorNumber);
 		UserDao ud=new UserDao();
 		OperatorInfo oi=ud.checkLogin(operatorNumber, operatorPwd);
