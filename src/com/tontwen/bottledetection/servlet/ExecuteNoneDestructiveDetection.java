@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tontwen.bottledetection.GlobalDetectionResult;
+import com.tontwen.bottledetection.NoneDestructiveDetectionResult;
 import com.tontwen.database.UserDao;
 
 /**
- * Servlet implementation class BottleDetectionResult
+ * Servlet implementation class ExecuteNoneDestructiveDetection
  */
-public class ExecuteGlobalDetection extends HttpServlet {
+public class ExecuteNoneDestructiveDetection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExecuteGlobalDetection() {
+    public ExecuteNoneDestructiveDetection() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,25 +43,22 @@ public class ExecuteGlobalDetection extends HttpServlet {
 		// TODO Auto-generated method stub
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
-    	jsonString = request.getParameter("content");
-//		jsonString="{\"bottleDetectNumber\":\"CR15000014\",\"bottleType\":1,\"operatorName\":\"管理员\",\"detectDetailResult\":\"111\",\"appearDetail\":null,\"soundDetail\":null,\"whorlDetail\":null,\"innerDetail\":null,\"globalSub5Detail\":null,\"globalSub6Detail\":null}";
+//    	jsonString = request.getParameter("content");
+		jsonString="{\"bottleDetectNumber\":\"CR15000017\",\"operatorName\":\"管理员\",\"noneDestructivePosition\":\"\",\"noneDestructiveDetail\":\"1##1##q##w##e##r##t##\",\"noneDestructiveResult\":1}";
 		System.out.println(jsonString);
 		
-		GlobalDetectionResult gdResult= new Gson().fromJson(jsonString, new TypeToken<GlobalDetectionResult>(){}.getType());
+		NoneDestructiveDetectionResult nddResult= new Gson().fromJson(jsonString, new TypeToken<NoneDestructiveDetectionResult>(){}.getType());
 		UserDao ud = new UserDao();
-		int rc=ud.executeGlobalDetect(gdResult);
-		System.out.println(gdResult.getBottleDetectNumber());
+		int rc=ud.executeNoneDestructiveDetection(nddResult);
+		System.out.println(nddResult.getBottleDetectNumber());
 		String json;
 		if(rc==1){
-			json ="{\"isGlobalDetectSuccess\":\"true\"}";
+			json ="{\"isNoneDestructiveDetectionSuccess\":\"true\"}";
 		}else{
-			json ="{\"isGlobalDetectSuccess\":\"false\"}";
+			json ="{\"isNoneDestructiveDetectionSuccess\":\"false\"}";
 		}
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
 	}
 
 }
-
-
-

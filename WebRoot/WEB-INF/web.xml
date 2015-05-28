@@ -74,4 +74,14 @@
     <servlet-name>ExecuteGlobalDetection</servlet-name>
     <url-pattern>/ExecuteGlobalDetection</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ExecuteNoneDestructiveDetection</display-name>
+    <servlet-name>ExecuteNoneDestructiveDetection</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.ExecuteNoneDestructiveDetection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExecuteNoneDestructiveDetection</servlet-name>
+    <url-pattern>/ExecuteNoneDestructiveDetection</url-pattern>
+  </servlet-mapping>
 </web-app>
