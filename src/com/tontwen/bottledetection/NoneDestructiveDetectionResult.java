@@ -5,7 +5,7 @@ public class NoneDestructiveDetectionResult {
 	private String operatorName;
 	private String noneDestructivePosition;
 	private String noneDestructiveDetail;
-	private int noneDestructiveResult;
+	private String noneDestructiveResult;
 	public String getBottleDetectNumber() {
 		return bottleDetectNumber;
 	}
@@ -18,10 +18,10 @@ public class NoneDestructiveDetectionResult {
 	public void setOperatorName(String operatorName) {
 		this.operatorName = operatorName;
 	}
-	public int getNoneDestructiveResult() {
+	public String getNoneDestructiveResult() {
 		return noneDestructiveResult;
 	}
-	public void setNoneDestructiveResult(int noneDestructiveResult) {
+	public void setNoneDestructiveResult(String noneDestructiveResult) {
 		this.noneDestructiveResult = noneDestructiveResult;
 	}
 	public String getNoneDestructiveDetail() {

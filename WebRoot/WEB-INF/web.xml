@@ -84,4 +84,34 @@
     <servlet-name>ExecuteNoneDestructiveDetection</servlet-name>
     <url-pattern>/ExecuteNoneDestructiveDetection</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NoneDestructiveDetect</display-name>
+    <servlet-name>NoneDestructiveDetect</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.NoneDestructiveDetect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoneDestructiveDetect</servlet-name>
+    <url-pattern>/NoneDestructiveDetect</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>WaterTest</display-name>
+    <servlet-name>WaterTest</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.WaterTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WaterTest</servlet-name>
+    <url-pattern>/WaterTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ExecuteWaterTest</display-name>
+    <servlet-name>ExecuteWaterTest</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.ExecuteWaterTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExecuteWaterTest</servlet-name>
+    <url-pattern>/ExecuteWaterTest</url-pattern>
+  </servlet-mapping>
 </web-app>

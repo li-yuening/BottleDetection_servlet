@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tontwen.bottledetection.GlobalDetectionResult;
+import com.tontwen.bottledetection.NoneDestructiveDetectionResult;
+import com.tontwen.bottledetection.WaterTestResult;
 import com.tontwen.database.UserDao;
 
 /**
- * Servlet implementation class BottleDetectionResult
+ * Servlet implementation class ExecuteWaterTest
  */
-public class ExecuteGlobalDetection extends HttpServlet {
+public class ExecuteWaterTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExecuteGlobalDetection() {
+    public ExecuteWaterTest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,24 +44,21 @@ public class ExecuteGlobalDetection extends HttpServlet {
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
     	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000016\",\"bottleType\":\"1\",\"operatorName\":\"管理员\",\"detectDetailResult\":\"111\",\"appearDetail\":null,\"soundDetail\":null,\"whorlDetail\":null,\"innerDetail\":null,\"globalSub5Detail\":null,\"globalSub6Detail\":null}";
+		jsonString="{\"bottleDetectNumber\":\"CR15000017\",\"operatorName\":\"管理员\",\"waterTestResult\":\"1\"}";
 		System.out.println(jsonString);
 		
-		GlobalDetectionResult gdResult= new Gson().fromJson(jsonString, new TypeToken<GlobalDetectionResult>(){}.getType());
+		WaterTestResult wtResult= new Gson().fromJson(jsonString, new TypeToken<WaterTestResult>(){}.getType());
 		UserDao ud = new UserDao();
-		int rc=ud.executeGlobalDetect(gdResult);
-		System.out.println(gdResult.getBottleDetectNumber());
+		int rc=ud.executeWaterTest(wtResult);
+		System.out.println(wtResult.getBottleDetectNumber());
 		String json;
 		if(rc==1){
-			json ="{\"isGlobalDetectSuccess\":\"true\"}";
+			json ="{\"isWaterTestSuccess\":\"true\"}";
 		}else{
-			json ="{\"isGlobalDetectSuccess\":\"false\"}";
+			json ="{\"isWaterTestSuccess\":\"false\"}";
 		}
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
 	}
 
 }
-
-
-

@@ -2,7 +2,7 @@ package com.tontwen.bottledetection;
 
 public class GlobalDetectionResult {
 	private String bottleDetectNumber;
-	private int bottleType;
+	private String bottleType;
 	private String operatorName;
 	private String detectDetailResult;
 	private String appearDetail;
@@ -17,10 +17,10 @@ public class GlobalDetectionResult {
 	public void setBottleDetectNumber(String bottleDetectNumber) {
 		this.bottleDetectNumber = bottleDetectNumber;
 	}
-	public int getBottleType() {
+	public String getBottleType() {
 		return bottleType;
 	}
-	public void setBottleType(int bottleType) {
+	public void setBottleType(String bottleType) {
 		this.bottleType = bottleType;
 	}
 	public String getOperatorName() {

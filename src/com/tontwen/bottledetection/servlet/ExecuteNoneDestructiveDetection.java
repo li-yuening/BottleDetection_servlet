@@ -43,8 +43,8 @@ public class ExecuteNoneDestructiveDetection extends HttpServlet {
 		// TODO Auto-generated method stub
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
-//    	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000017\",\"operatorName\":\"管理员\",\"noneDestructivePosition\":\"\",\"noneDestructiveDetail\":\"1##1##q##w##e##r##t##\",\"noneDestructiveResult\":1}";
+    	jsonString = request.getParameter("content");
+//		jsonString="{\"bottleDetectNumber\":\"CR15000017\",\"operatorName\":\"管理员\",\"noneDestructivePosition\":\"\",\"noneDestructiveDetail\":\"1##1##q##w##e##r##t##\",\"noneDestructiveResult\":\"1\"}";
 		System.out.println(jsonString);
 		
 		NoneDestructiveDetectionResult nddResult= new Gson().fromJson(jsonString, new TypeToken<NoneDestructiveDetectionResult>(){}.getType());

@@ -1,10 +1,10 @@
 package com.tontwen.bottledetection;
 
-public class GlobalDetectWaitedBottle {
+public class TestWaited {
 	private String bottleDetectNumber;
 	private String bottleNumber;
 	private String carNumber;
-	private int bottleType;
+	private String bottleType;
 	public String getBottleDetectNumber() {
 		return bottleDetectNumber;
 	}
@@ -23,10 +23,10 @@ public class GlobalDetectWaitedBottle {
 	public void setCarNumber(String carNumber) {
 		this.carNumber = carNumber;
 	}
-	public int getBottleType() {
+	public String getBottleType() {
 		return bottleType;
 	}
-	public void setBottleType(int bottleType) {
+	public void setBottleType(String bottleType) {
 		this.bottleType = bottleType;
 	}
 	
