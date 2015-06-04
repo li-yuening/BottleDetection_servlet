@@ -1,33 +1,33 @@
 package com.tontwen.bottledetection;
 
 public class GlobalDetectWaitedBottle {
-	private String BottleDetectNumber;
-	private String BottleNumber;
-	private String CarNumber;
-	private int BottleType;
+	private String bottleDetectNumber;
+	private String bottleNumber;
+	private String carNumber;
+	private int bottleType;
 	public String getBottleDetectNumber() {
-		return BottleDetectNumber;
+		return bottleDetectNumber;
 	}
 	public void setBottleDetectNumber(String bottleDetectNumber) {
-		BottleDetectNumber = bottleDetectNumber;
+		this.bottleDetectNumber = bottleDetectNumber;
 	}
 	public String getBottleNumber() {
-		return BottleNumber;
+		return bottleNumber;
 	}
 	public void setBottleNumber(String bottleNumber) {
-		BottleNumber = bottleNumber;
+		this.bottleNumber = bottleNumber;
 	}
 	public String getCarNumber() {
-		return CarNumber;
+		return carNumber;
 	}
 	public void setCarNumber(String carNumber) {
-		CarNumber = carNumber;
+		this.carNumber = carNumber;
 	}
 	public int getBottleType() {
-		return BottleType;
+		return bottleType;
 	}
 	public void setBottleType(int bottleType) {
-		BottleType = bottleType;
+		this.bottleType = bottleType;
 	}
 	
 	

@@ -9,7 +9,7 @@ import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
 //import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.GlobalDetectWaitedBottle;
 import com.tontwen.bottledetection.ChubuPanduanResult;
-import com.tontwen.bottledetection.GlobalDetectionResult;
+//import com.tontwen.bottledetection.GlobalDetectionResult;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
@@ -469,7 +469,7 @@ public class UserDao {
 		return list;
 	}
 	
-	public int executeGlobalDetect(GlobalDetectionResult gdr){
+	/*public int executeGlobalDetect(GlobalDetectionResult gdr){
 		int rc=0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
