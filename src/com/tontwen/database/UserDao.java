@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
+
 //import com.sun.crypto.provider.RSACipher;
 import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
 //import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.GlobalDetectWaitedBottle;
 import com.tontwen.bottledetection.ChubuPanduanResult;
-//import com.tontwen.bottledetection.GlobalDetectionResult;
+import com.tontwen.bottledetection.GlobalDetectionResult;
+import com.tontwen.bottledetection.NoneDestructiveDetectionResult;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
 import com.tontwen.database.DBUtil;
@@ -469,7 +471,7 @@ public class UserDao {
 		return list;
 	}
 	
-	/*public int executeGlobalDetect(GlobalDetectionResult gdr){
+	public int executeGlobalDetect(GlobalDetectionResult gdr){
 		int rc=0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
@@ -520,6 +522,27 @@ public class UserDao {
 				String[] parameters4={detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getOperatorName(),nowTime,gdr.getBottleDetectNumber()};
 				DBUtil.executeUpdate(sql, parameters4);
 			}
+		}
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int executeNoneDestructiveDetection(NoneDestructiveDetectionResult nddr){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		int result=nddr.getNoneDestructiveResult();
+		String sql="";
+		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, NoneDestructivePositon=?, "
+				+ "NoneDestructiveDetail=?, NoneDestructiveResult=?, NoneDestructiveOver=?, NoneDestructiveOperator=?, "
+				+ "NoneDestructiveDate=?, FailPos=? where BottleDetectNumber=?";
+		if(result==0){
+			String[] parameters={"判废",nowTime,nddr.getNoneDestructivePosition(),nddr.getNoneDestructiveDetail(),"0","1",nddr.getOperatorName(),nowTime,"WS",nddr.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql, parameters);
+		}else{
+			String[] parameters={"-",null,null,null,"1","1",nddr.getOperatorName(),nowTime,null,nddr.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql, parameters);
 		}
 		rc=1;
 		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
