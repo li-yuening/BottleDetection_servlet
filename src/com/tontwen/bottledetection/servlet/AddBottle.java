@@ -1,6 +1,7 @@
 package com.tontwen.bottledetection.servlet;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -89,6 +90,13 @@ public class AddBottle extends HttpServlet {
 		UserDao ud = new UserDao();
 		boolean addResult = ud.executeAddBottleInfoCarInfo(bc);
 		System.out.println(addResult);
+		if (addResult == true) {
+			json ="{\"isOperationSuccess\":\"true\"}";
+		}else if (addResult == false) {
+			json ="{\"isOperationSuccess\":\"false\"}";
+		}
+		OutputStream stream = response.getOutputStream();
+		stream.write(json.getBytes("UTF-8"));
 	}
 
 	/**
