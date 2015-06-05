@@ -32,7 +32,6 @@ public class WaterTest extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String bottleType = request.getParameter("bottleType");
 		UserDao ud=new UserDao();
 		ArrayList<TestWaited> list=new ArrayList<TestWaited>();
 		list=ud.executeWaterTestWaitedBottleQuery();

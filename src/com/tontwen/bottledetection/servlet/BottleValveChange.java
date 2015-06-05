@@ -10,39 +10,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.tontwen.bottledetection.BottleInfo_ValveInfo;
 import com.tontwen.bottledetection.TestWaited;
 import com.tontwen.database.UserDao;
 
 /**
- * Servlet implementation class GlobalDetect
+ * Servlet implementation class BottleValveChange
  */
-public class GlobalDetect extends HttpServlet {
+public class BottleValveChange extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GlobalDetect() {
+    public BottleValveChange() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    public void destroy() {
-		super.destroy(); // Just puts "destroy" string in log
-		// Put your code here
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String bottleType = request.getParameter("bottleType");
-//		bottleType="1";
+		// TODO Auto-generated method stub
 		UserDao ud=new UserDao();
-		ArrayList<TestWaited> list=new ArrayList<TestWaited>();
-		list=ud.executeAllGlobalDetectWaitedBottleQuery(bottleType);
-		//System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
+		ArrayList<BottleInfo_ValveInfo> list=new ArrayList<BottleInfo_ValveInfo>();
+		list=ud.executeValveChangeWaitedBottleQuery();
+//		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
+		System.out.println(json);
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
 	}

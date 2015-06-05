@@ -6,8 +6,15 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
 //import com.sun.crypto.provider.RSACipher;
 import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
+import com.tontwen.bottledetection.BottleInfo_ValveInfo;
+import com.tontwen.bottledetection.BottleValveChangeResult;
+import com.tontwen.bottledetection.InnerDryResult;
 //import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.TestWaited;
 import com.tontwen.bottledetection.ChubuPanduanResult;
@@ -15,6 +22,7 @@ import com.tontwen.bottledetection.GlobalDetectionResult;
 import com.tontwen.bottledetection.NoneDestructiveDetectionResult;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
+import com.tontwen.bottledetection.ValveInfo;
 import com.tontwen.bottledetection.WaterTestResult;
 import com.tontwen.database.DBUtil;
 
@@ -482,12 +490,12 @@ public class UserDao {
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
 			while(rs.next()){
-				TestWaited gd = new TestWaited();
-				gd.setBottleNumber(rs.getString("BottleNumber"));
-				gd.setBottleType(rs.getString("BottleType"));
-				gd.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
-				gd.setCarNumber(rs.getString("CarNumber"));
-				list.add(gd);
+				TestWaited tw = new TestWaited();
+				tw.setBottleNumber(rs.getString("BottleNumber"));
+				tw.setBottleType(rs.getString("BottleType"));
+				tw.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				tw.setCarNumber(rs.getString("CarNumber"));
+				list.add(tw);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -513,12 +521,107 @@ public class UserDao {
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
 			while(rs.next()){
-				TestWaited gd = new TestWaited();
-				gd.setBottleNumber(rs.getString("BottleNumber"));
-				gd.setBottleType(rs.getString("BottleType"));
-				gd.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
-				gd.setCarNumber(rs.getString("CarNumber"));
-				list.add(gd);
+				TestWaited tw = new TestWaited();
+				tw.setBottleNumber(rs.getString("BottleNumber"));
+				tw.setBottleType(rs.getString("BottleType"));
+				tw.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				tw.setCarNumber(rs.getString("CarNumber"));
+				list.add(tw);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<TestWaited> executeInnerDryWaitedBottleQuery(){
+
+		ArrayList<TestWaited> list  = new ArrayList<TestWaited>();
+		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber ,BottleType  from dbo.BottleInfo_BottleDectectInfo "
+				+ "where WaterTestOver =1 and InnerDryOver=0";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				TestWaited tw = new TestWaited();
+				tw.setBottleNumber(rs.getString("BottleNumber"));
+				tw.setBottleType(rs.getString("BottleType"));
+				tw.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				tw.setCarNumber(rs.getString("CarNumber"));
+				list.add(tw);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<BottleInfo_ValveInfo> executeValveChangeWaitedBottleQuery(){
+
+		ArrayList<BottleInfo_ValveInfo> list  = new ArrayList<BottleInfo_ValveInfo>();
+		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber ,BottleValveTestNo, BottleValveType, "
+				+ "BottleValveTestPressure, BottleValveTestMedium  from dbo.BottleInfo_BottleDectectInfo "
+				+ "where BottleValveChangeOver =0 and InnerDryOver=1";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				BottleInfo_ValveInfo bv = new BottleInfo_ValveInfo();
+				bv.setBottleNumber(rs.getString("BottleNumber"));
+				bv.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				bv.setCarNumber(rs.getString("CarNumber"));
+				bv.setBottleValveTestNo(rs.getString("BottleValveTestNo"));
+				bv.setBottleValveType(rs.getString("BottleValveType"));
+				bv.setBottleValveTestPressure(rs.getString("BottleValveTestPressure"));
+				bv.setBottleValveTestMedium(rs.getString("BottleValveTestMedium"));
+				list.add(bv);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<ValveInfo> executeValveQuery(){
+
+		ArrayList<ValveInfo> list  = new ArrayList<ValveInfo>();
+		String sql ="select ValveType ,ValveTestPressure ,ValveTestMedium from dbo.ValveInfo";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				ValveInfo vi = new ValveInfo();
+				vi.setValveType(rs.getString("ValveType"));
+				vi.setValveTestPressure(rs.getString("ValveTestPressure"));
+				vi.setValveTestMedium(rs.getString("ValveTestMedium"));
+				list.add(vi);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -638,6 +741,61 @@ public class UserDao {
 			String[] parameters={"-",null,"1","1",wtr.getOperatorName(),nowTime,null,wtr.getBottleDetectNumber()};
 			DBUtil.executeUpdate(sql, parameters);
 		}
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int executeInnerDry(InnerDryResult idr){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String sql="";
+		sql="update BottleDetectInfo set InnerDryOver=1,  InnerDryOperator=?, "
+				+ "InnerDryDate=? where BottleDetectNumber=?";
+		String[] parameters={idr.getOperatorName(),nowTime,idr.getBottleDetectNumber()};
+		DBUtil.executeUpdate(sql, parameters);
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int executeBottleValveChange(BottleValveChangeResult bvcr){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String sql="";
+		sql="update BottleDetectInfo set BottleValveType=?, BottleValveTestPressure=?, BottleValveTestMedium=?, BottleValveTestNo=?, "
+				+ "BottleValveChangeResult=?, BottleValveChangeOver=1,  BottleValveChangeOperator=?, "
+				+ "BottleValveChangeDate=? where BottleDetectNumber=?";
+		String[] parameters={bvcr.getBottleValveType(),bvcr.getBottleValveTestPressure(),bvcr.getBottleValveTestMedium(),
+				bvcr.getBottleValveTestNo(),bvcr.getBottleValveChangeResult(),bvcr.getOperatorName(),nowTime,bvcr.getBottleDetectNumber()};
+		DBUtil.executeUpdate(sql, parameters);
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int addValveInfo(ValveInfo vi){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String sql="";
+		sql="insert into ValveInfo (ValveType,ValveTestPressure,ValveTestMedium,ValveAddOperator,ValveAddTime,ValveDefault) "
+				+ "values (?,?,?,?,?,0)";
+		String[] parameters={vi.getValveType(),vi.getValveTestPressure(),vi.getValveTestMedium(),vi.getValveAddOperator(),nowTime};
+		DBUtil.executeUpdate(sql, parameters);
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int deleteValveInfo(ValveInfo vi){
+		int rc=0;
+		String sql="";
+		sql="delete from ValveInfo where ValveType=?";
+		String[] parameters={vi.getValveType()};
+		DBUtil.executeUpdate(sql, parameters);
 		rc=1;
 		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 		return rc;

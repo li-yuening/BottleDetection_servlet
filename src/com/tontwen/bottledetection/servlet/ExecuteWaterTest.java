@@ -44,7 +44,7 @@ public class ExecuteWaterTest extends HttpServlet {
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
     	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000017\",\"operatorName\":\"管理员\",\"waterTestResult\":\"1\"}";
+//		jsonString="{\"bottleDetectNumber\":\"CR15000017\",\"operatorName\":\"管理员\",\"waterTestResult\":\"1\"}";
 		System.out.println(jsonString);
 		
 		WaterTestResult wtResult= new Gson().fromJson(jsonString, new TypeToken<WaterTestResult>(){}.getType());
@@ -53,9 +53,9 @@ public class ExecuteWaterTest extends HttpServlet {
 		System.out.println(wtResult.getBottleDetectNumber());
 		String json;
 		if(rc==1){
-			json ="{\"isWaterTestSuccess\":\"true\"}";
+			json ="{\"isSuccess\":\"true\"}";
 		}else{
-			json ="{\"isWaterTestSuccess\":\"false\"}";
+			json ="{\"isSuccess\":\"false\"}";
 		}
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));

@@ -53,9 +53,9 @@ public class ExecuteNoneDestructiveDetection extends HttpServlet {
 		System.out.println(nddResult.getBottleDetectNumber());
 		String json;
 		if(rc==1){
-			json ="{\"isNoneDestructiveDetectionSuccess\":\"true\"}";
+			json ="{\"isSuccess\":\"true\"}";
 		}else{
-			json ="{\"isNoneDestructiveDetectionSuccess\":\"false\"}";
+			json ="{\"isSuccess\":\"false\"}";
 		}
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
