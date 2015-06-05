@@ -5,6 +5,7 @@ public class ChubuPanduanResult {
 	private int bottleType;
 	private String carNumber;
 	private String preDetectResult;
+	private String operatorName;
 	
 	public String getBottleNumber() {
 		return bottleNumber;
@@ -29,5 +30,11 @@ public class ChubuPanduanResult {
 	}
 	public void setPreDetectResult(String preDetectResult) {
 		this.preDetectResult = preDetectResult;
+	}
+	public String getOperatorName() {
+		return operatorName;
+	}
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
 	}
 }

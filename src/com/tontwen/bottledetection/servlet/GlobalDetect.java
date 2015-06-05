@@ -41,7 +41,7 @@ public class GlobalDetect extends HttpServlet {
 		UserDao ud=new UserDao();
 		ArrayList<TestWaited> list=new ArrayList<TestWaited>();
 		list=ud.executeAllGlobalDetectWaitedBottleQuery(bottleType);
-		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
+		//System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
