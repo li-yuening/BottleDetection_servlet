@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.tontwen.bottledetection.TestWaited;
-import com.tontwen.bottledetection.ValveInfo;
+import com.tontwen.bottledetection.AirProofInfo;
+import com.tontwen.bottledetection.VacuumInfo;
 import com.tontwen.database.UserDao;
 
 /**
- * Servlet implementation class ValveInfoQuery
+ * Servlet implementation class Vacuum
  */
-public class ValveInfoQuery extends HttpServlet {
+public class Vacuum extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ValveInfoQuery() {
+    public Vacuum() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,8 +34,8 @@ public class ValveInfoQuery extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		UserDao ud=new UserDao();
-		ArrayList<ValveInfo> list=new ArrayList<ValveInfo>();
-		list=ud.executeValveQuery();
+		ArrayList<VacuumInfo> list=new ArrayList<VacuumInfo>();
+		list=ud.executeVacuumWaitedBottleQuery();
 //		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
 		System.out.println(json);

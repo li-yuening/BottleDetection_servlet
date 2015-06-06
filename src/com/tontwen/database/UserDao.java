@@ -10,6 +10,13 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
+
+import com.tontwen.bottledetection.AirProofInfo;
+import com.tontwen.bottledetection.AirProofTestMethod;
 //import com.sun.crypto.provider.RSACipher;
 import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
 import com.tontwen.bottledetection.BottleInfo_ValveInfo;
@@ -22,6 +29,7 @@ import com.tontwen.bottledetection.GlobalDetectionResult;
 import com.tontwen.bottledetection.NoneDestructiveDetectionResult;
 import com.tontwen.bottledetection.OperatorInfo;
 import com.tontwen.bottledetection.BottleInfo_CarInfo;
+import com.tontwen.bottledetection.VacuumInfo;
 import com.tontwen.bottledetection.ValveInfo;
 import com.tontwen.bottledetection.WaterTestResult;
 import com.tontwen.database.DBUtil;
@@ -638,6 +646,106 @@ public class UserDao {
 		return list;
 	}
 	
+	public ArrayList<AirProofInfo> executeAirProofTestWaitedBottleQuery(){
+
+		ArrayList<AirProofInfo> list  = new ArrayList<AirProofInfo>();
+		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber, AirProofTestMethod, AirProofTestMedium, "
+				+ "AirProofTestTemp, AirProofTestPressure, AirProofTestKeepTime, AirProofTestResult from dbo.BottleInfo_BottleDectectInfo "
+				+ "where BottleValveChangeOver =1 and AirProofTestOver=0";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				AirProofInfo api = new AirProofInfo();
+				api.setBottleNumber(rs.getString("BottleNumber"));
+				api.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				api.setCarNumber(rs.getString("CarNumber"));
+				api.setAirProofTestMethod(rs.getString("AirProofTestMethod"));
+				api.setAirProofTestMedium(rs.getString("AirProofTestMedium"));
+				api.setAirProofTestTemp(rs.getString("AirProofTestTemp"));
+				api.setAirProofTestPressure(rs.getString("AirProofTestPressure"));
+				api.setAirProofTestKeepTime(rs.getString("AirProofTestKeepTime"));
+				api.setAirProofTestResult(rs.getString("AirProofTestResult"));
+				list.add(api);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<AirProofTestMethod> executeAirProofMethodQuery(){
+
+		ArrayList<AirProofTestMethod> list  = new ArrayList<AirProofTestMethod>();
+		String sql ="select AirProofTestMethod, AirProofTestMedium, AirProofTestTemp, AirProofTestPressure, AirProofTestKeepTime from dbo.AirProofTestInfo";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				AirProofTestMethod aptm = new AirProofTestMethod();
+				aptm.setAirProofTestMethod(rs.getString("AirProofTestMethod"));
+				aptm.setAirProofTestMedium(rs.getString("AirProofTestMedium"));
+				aptm.setAirProofTestTemp(rs.getString("AirProofTestTemp"));
+				aptm.setAirProofTestPressure(rs.getString("AirProofTestPressure"));
+				aptm.setAirProofTestKeepTime(rs.getString("AirProofTestKeepTime"));
+				list.add(aptm);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<VacuumInfo> executeVacuumWaitedBottleQuery(){
+
+		ArrayList<VacuumInfo> list  = new ArrayList<VacuumInfo>();
+		String sql ="select BottleDetectNumber ,BottleNumber ,CarNumber, VacuumPressure "
+				+ "from dbo.BottleInfo_BottleDectectInfo "
+				+ "where VacuumOver=0 and AirProofTestOver=1 and FinalDetectResult<>'合格'";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				VacuumInfo vi = new VacuumInfo();
+				vi.setBottleNumber(rs.getString("BottleNumber"));
+				vi.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				vi.setCarNumber(rs.getString("CarNumber"));
+				vi.setVacuumPressure(rs.getString("VacuumPressure"));
+				list.add(vi);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
 	public int executeGlobalDetect(GlobalDetectionResult gdr){
 		int rc=0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -796,6 +904,76 @@ public class UserDao {
 		sql="delete from ValveInfo where ValveType=?";
 		String[] parameters={vi.getValveType()};
 		DBUtil.executeUpdate(sql, parameters);
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int executeAirProofTest(AirProofInfo api){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String sql="";
+		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, AirProofTestMethod=?, AirProofTestMedium=?, "
+				+ "AirProofTestTemp=?, AirProofTestPressure=?, AirProofTestKeepTime=?, AirProofTestResult=?, AirProofTestOperator=?, "
+				+ "AirProofTestOver=1, AirProofTestDate=?, FailPos=? where BottleDetectNumber=?";
+		if(api.getAirProofTestResult()=="判废"){
+			String[] parameters={"判废",nowTime,api.getAirProofTestMethod(),api.getAirProofTestMedium(),api.getAirProofTestTemp(),
+					api.getAirProofTestPressure(),api.getAirProofTestKeepTime(),api.getAirProofTestResult(),
+					api.getOperatorName(),nowTime,"QM",api.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql, parameters);
+		}else{
+			String[] parameters={"-",null,api.getAirProofTestMethod(),api.getAirProofTestMedium(),api.getAirProofTestTemp(),
+					api.getAirProofTestPressure(),api.getAirProofTestKeepTime(),api.getAirProofTestResult(),
+					api.getOperatorName(),nowTime,null,api.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql, parameters);
+		}
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int addAirProofTestMethod(AirProofTestMethod aptm){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String sql="";
+		sql="insert into AirProofTestInfo (AirProofTestMethod, AirProofTestMedium, AirProofTestTemp, AirProofTestPressure, "
+				+ "AirProofTestKeepTime, AirParaAddOperator, AirParaAddTime) values (?,?,?,?,?,?,?)";
+		String[] parameters={aptm.getAirProofTestMethod(),aptm.getAirProofTestMedium(),aptm.getAirProofTestTemp(),
+				aptm.getAirProofTestPressure(),aptm.getAirProofTestKeepTime(),aptm.getAirParaAddOperator(),nowTime};
+		DBUtil.executeUpdate(sql, parameters);
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int deleteAirProofTestMethod(AirProofTestMethod aptm){
+		int rc=0;
+		String sql="";
+		sql="delete from AirProofTestInfo where AirProofTestMethod=?";
+		String[] parameters={aptm.getAirProofTestMethod()};
+		DBUtil.executeUpdate(sql, parameters);
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int executeVacuum(VacuumInfo vi){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String result=vi.getVacuumResult();
+		String sql="";
+		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, VacuumPressure=?, VacuumOver=?, "
+				+ "VacuumOperator=?, VacuumDate=? where BottleDetectNumber=?";
+		if(result=="0"){
+			String[] parameters={"-",null,vi.getVacuumPressure(),"0",null,null,vi.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql, parameters);
+		}else{
+			String[] parameters={"合格",nowTime,vi.getVacuumPressure(),"1",vi.getOperatorName(),nowTime,vi.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql, parameters);
+		}
 		rc=1;
 		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 		return rc;
