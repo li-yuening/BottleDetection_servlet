@@ -15,12 +15,17 @@ import java.util.ArrayList;
 
 
 
+
+import java.util.Calendar;
+import java.util.Date;
+
 import com.tontwen.bottledetection.AirProofInfo;
 import com.tontwen.bottledetection.AirProofTestMethod;
 //import com.sun.crypto.provider.RSACipher;
 import com.tontwen.bottledetection.BottleDetectNumber_RptNo;
 import com.tontwen.bottledetection.BottleInfo_ValveInfo;
 import com.tontwen.bottledetection.BottleValveChangeResult;
+import com.tontwen.bottledetection.FinalReportInfo;
 import com.tontwen.bottledetection.InnerDryResult;
 //import com.tontwen.bottledetection.BottleInfo;
 import com.tontwen.bottledetection.TestWaited;
@@ -746,6 +751,41 @@ public class UserDao {
 		return list;
 	}
 	
+	public ArrayList<FinalReportInfo> executeFinalReportWaitedBottleQuery(){
+
+		ArrayList<FinalReportInfo> list  = new ArrayList<FinalReportInfo>();
+		String sql ="select BottleDetectNumber, BottleDetectInfo.BottleNumber, CarNumber, ReportExaminer,"
+				+ "ReportChecker,FinalDetectDate,BottleNextCheckDate from BottleInfo, BottleDetectInfo "
+				+ "where BottleInfo.BottleNumber=BottleDetectInfo.BottleNumber and FinalDetectResult<>'合格'";
+		String[] parameters =null;
+		ResultSet rs = DBUtil.executeQuery(sql, parameters);
+		try {
+			while(rs.next()){
+				FinalReportInfo fri = new FinalReportInfo();
+				fri.setBottleNumber(rs.getString("BottleNumber"));
+				fri.setBottleDetectNumber(rs.getString("BottleDetectNumber"));
+				fri.setCarNumber(rs.getString("CarNumber"));
+				fri.setReportExaminer(rs.getString("ReportExaminer"));
+				fri.setReportChecker(rs.getString("ReportChecker"));
+				fri.setFinalDetectDate(rs.getString("FinalDetectDate"));
+				fri.setBottleNextCheckDate(rs.getString("BottleNextCheckDate"));
+				list.add(fri);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
 	public int executeGlobalDetect(GlobalDetectionResult gdr){
 		int rc=0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -754,8 +794,19 @@ public class UserDao {
 		System.out.println(detectDetailResult);
 		String globalSub1,globalSub2,globalSub3,globalSub4,globalSub5,globalSub6;
 		String sql="";
+		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, GlobalDetectDetailResult=?,"
+				+ "AppearDetail=?, SoundDetail=?, WhorlDetail=?, InnerDetail=?, GlobalDetectOver='1', GlobalDetectResult=?,"
+				+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub1=?, GlobalSub2=?, GlobalSub3=?, GlobalSub4=?,"
+				+ "GlobalSub5=?, GlobalSub6=?, GlobalSub5Detail=?, GlobalSub6Detail=?, FailPos=? "
+				+ "where BottleDetectNumber=?";
 		if(gdr.getBottleType()=="0"){
-			int globalDetectResult0=detectDetailResult=="111111" ? 1 : 0;
+			int globalDetectResult0;
+			String str="111111";
+			if(detectDetailResult.equals(str)){
+				globalDetectResult0=1;
+			}else{
+				globalDetectResult0=0;
+			}
 			globalSub1=detectDetailResult.substring(0, 1);
 			globalSub2=detectDetailResult.substring(1, 2);
 			globalSub3=detectDetailResult.substring(2, 3);
@@ -763,26 +814,22 @@ public class UserDao {
 			globalSub5=detectDetailResult.substring(4, 5);
 			globalSub6=detectDetailResult.substring(5, 6);
 			if(globalDetectResult0==0){
-				sql="update BottleDetectInfo set FinalDetectResult='判废', FinalDetectDate=?, GlobalDetectDetailResult=?,"
-						+ "AppearDetail=?, SoundDetail=?, WhorlDetail=?, InnerDetail=?, GlobalDetectOver='1', GlobalDetectResult='0',"
-						+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub1=?, GlobalSub2=?, GlobalSub3=?, GlobalSub4=?,"
-						+ "GlobalSub5=?, GlobalSub6=?, GlobalSub5Detail=?, GlobalSub6Detail=?, FailPos='HG'"
-						+ "where BottleDetectNumber=?";
-				String[] parameters1={nowTime,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),gdr.getInnerDetail(),gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,globalSub4,globalSub5,globalSub6,gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),gdr.getBottleDetectNumber()};
-				DBUtil.executeUpdate(sql, parameters1);
+				String[] parameters={"判废",nowTime,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),
+						gdr.getInnerDetail(),"0",gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,globalSub4,globalSub5,
+						globalSub6,gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),"HG",gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters);
 			}else{
-				sql="update BottleDetectInfo set GlobalDetectDetailResult=?,"
-						+ "AppearDetail=?, SoundDetail=?, WhorlDetail=?, InnerDetail=?, GlobalDetectOver='1', GlobalDetectResult='1',"
-						+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub5Detail=?, GlobalSub6Detail=?"
-						+ "where BottleDetectNumber=?";
-				String[] parameters2={detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),gdr.getInnerDetail(),gdr.getOperatorName(),nowTime,gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),gdr.getBottleDetectNumber()};
-				DBUtil.executeUpdate(sql, parameters2);
+				String[] parameters={"-",null,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),
+						gdr.getInnerDetail(),"1",gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,globalSub4,globalSub5,
+						globalSub6,gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),null,gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters);
 			}
 		}else{
 			int globalDetectResult1;
 //			int globalDetectResult1=detectDetailResult=="111" ? 1 : 0;
 			System.out.println(detectDetailResult);
-			if(detectDetailResult=="111"){
+	        String str="111";
+			if(detectDetailResult.equals(str)){
 				globalDetectResult1=1;
 			}else{
 				globalDetectResult1=0;
@@ -792,19 +839,15 @@ public class UserDao {
 			globalSub2=detectDetailResult.substring(1, 2);
 			globalSub3=detectDetailResult.substring(2, 3);
 			if(globalDetectResult1==0){
-				sql="update BottleDetectInfo set FinalDetectResult='判废', FinalDetectDate=?, GlobalDetectDetailResult=?,"
-						+ "AppearDetail=?, SoundDetail=?, GlobalDetectOver='1', GlobalDetectResult='0',"
-						+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub1=?, GlobalSub2=?, GlobalSub3=?, FailPos='HG'"
-						+ "where BottleDetectNumber=?";
-				String[] parameters3={nowTime,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,gdr.getBottleDetectNumber()};
-				DBUtil.executeUpdate(sql, parameters3);
+				String[] parameters={"判废",nowTime,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),
+						gdr.getInnerDetail(),"0",gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,"1","1","1",
+						gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),"HG",gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters);
 			}else{
-				sql="update BottleDetectInfo set GlobalDetectDetailResult=?,"
-						+ "AppearDetail=?, SoundDetail=?, GlobalDetectOver='1', GlobalDetectResult='1',"
-						+ "GlobalDetectOperator=?, GlobalDetectDate=?"
-						+ "where BottleDetectNumber=?";
-				String[] parameters4={detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getOperatorName(),nowTime,gdr.getBottleDetectNumber()};
-				DBUtil.executeUpdate(sql, parameters4);
+				String[] parameters={"-",null,detectDetailResult,gdr.getAppearDetail(),gdr.getSoundDetail(),gdr.getWhorlDetail(),
+						gdr.getInnerDetail(),"1",gdr.getOperatorName(),nowTime,globalSub1,globalSub2,globalSub3,"1","1","1",
+						gdr.getGlobalSub5Detail(),gdr.getGlobalSub6Detail(),null,gdr.getBottleDetectNumber()};
+				DBUtil.executeUpdate(sql, parameters);
 			}
 		}
 		rc=1;
@@ -961,19 +1004,46 @@ public class UserDao {
 	
 	public int executeVacuum(VacuumInfo vi){
 		int rc=0;
+		int rc1=0,rc2=0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String nowTime = simpleDateFormat.format(new java.util.Date());
+		Calendar c=Calendar.getInstance();
+		c.setTime(new java.util.Date());
+		Long dt=c.getTimeInMillis();
+		c.setTimeInMillis(dt+Integer.parseInt(vi.getYrs())*365*24L*3600L*1000L);
+		Date dt2=c.getTime();
+		String futureTime = simpleDateFormat.format(dt2);
+		System.out.println(futureTime);
 		String result=vi.getVacuumResult();
-		String sql="";
-		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, VacuumPressure=?, VacuumOver=?, "
+		String sql1="",sql2="",sql3="";
+		sql1="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, VacuumPressure=?, VacuumOver=?, "
 				+ "VacuumOperator=?, VacuumDate=? where BottleDetectNumber=?";
-		if(result=="0"){
-			String[] parameters={"-",null,vi.getVacuumPressure(),"0",null,null,vi.getBottleDetectNumber()};
-			DBUtil.executeUpdate(sql, parameters);
+		sql2="update BottleInfo set BottleNextCheckDate=? where BottleNumber= (select BottleNumber from BottleDetectInfo "
+				+ "where BottleDetectNumber=?)";
+		String[] parameters2={futureTime,vi.getBottleDetectNumber()};
+	    if(result=="0"){
+			String[] parameters1={"-",null,vi.getVacuumPressure(),"0",null,null,vi.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql1, parameters1);
+			DBUtil.executeUpdate(sql2, parameters2);
 		}else{
-			String[] parameters={"合格",nowTime,vi.getVacuumPressure(),"1",vi.getOperatorName(),nowTime,vi.getBottleDetectNumber()};
-			DBUtil.executeUpdate(sql, parameters);
+			String[] parameters1={"合格",nowTime,vi.getVacuumPressure(),"1",vi.getOperatorName(),nowTime,vi.getBottleDetectNumber()};
+			DBUtil.executeUpdate(sql1, parameters1);
+			DBUtil.executeUpdate(sql2, parameters2);
 		}
+		rc=1;
+		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
+		return rc;
+	}
+	
+	public int executeReportExaminerSetting(FinalReportInfo fri){
+		int rc=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String nowTime = simpleDateFormat.format(new java.util.Date());
+		String sql="";
+		sql="update BottleDetectInfo set ReportExaminer=?, ReportChecker=?, ReportApproverDate=?, ReportCheckerDate=? "
+				+ "where BottleDetectNumber=?";
+		String[] parameters={fri.getReportExaminer(),fri.getReportChecker(),nowTime,nowTime,fri.getBottleDetectNumber()};
+		DBUtil.executeUpdate(sql, parameters);
 		rc=1;
 		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 		return rc;

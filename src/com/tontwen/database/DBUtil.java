@@ -103,6 +103,7 @@ public class DBUtil {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+	
 	public static Connection getConn() {
 		return conn;
 	}

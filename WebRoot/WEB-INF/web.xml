@@ -254,4 +254,24 @@
     <servlet-name>ExecuteVacuum</servlet-name>
     <url-pattern>/servlet/ExecuteVacuum</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FinalReport</display-name>
+    <servlet-name>FinalReport</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.FinalReport</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FinalReport</servlet-name>
+    <url-pattern>/FinalReport</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ExecuteReportExaminerSetting</display-name>
+    <servlet-name>ExecuteReportExaminerSetting</servlet-name>
+    <servlet-class>com.tontwen.bottledetection.servlet.ExecuteReportExaminerSetting</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExecuteReportExaminerSetting</servlet-name>
+    <url-pattern>/ExecuteReportExaminerSetting</url-pattern>
+  </servlet-mapping>
 </web-app>

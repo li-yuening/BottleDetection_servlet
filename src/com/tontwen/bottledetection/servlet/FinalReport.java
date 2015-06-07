@@ -2,6 +2,7 @@ package com.tontwen.bottledetection.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,21 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.tontwen.bottledetection.AirProofInfo;
+import com.tontwen.bottledetection.FinalReportInfo;
 import com.tontwen.bottledetection.VacuumInfo;
 import com.tontwen.database.UserDao;
 
 /**
- * Servlet implementation class ExecuteVacuum
+ * Servlet implementation class FinalReport
  */
-public class ExecuteVacuum extends HttpServlet {
+public class FinalReport extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExecuteVacuum() {
+    public FinalReport() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +33,14 @@ public class ExecuteVacuum extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		this.doPost(request,response);
+		UserDao ud=new UserDao();
+		ArrayList<FinalReportInfo> list=new ArrayList<FinalReportInfo>();
+		list=ud.executeFinalReportWaitedBottleQuery();
+//		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
+		String json = new Gson().toJson(list);
+		System.out.println(json);
+		OutputStream stream = response.getOutputStream();
+		stream.write(json.getBytes("UTF-8"));
 	}
 
 	/**
@@ -41,25 +48,7 @@ public class ExecuteVacuum extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String jsonString = "";
-		request.setCharacterEncoding("UTF-8");
-    	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000022\",\"operatorName\":\"π‹¿Ì‘±\",\"vacuumPressure\":\"-50\","
-				+ "\"vacuumResult\":\"1\",\"yrs\":\"2\"}";
-		System.out.println(jsonString);
-		
-		VacuumInfo vInfo= new Gson().fromJson(jsonString, new TypeToken<VacuumInfo>(){}.getType());
-		UserDao ud = new UserDao();
-		int rc=ud.executeVacuum(vInfo);
-		System.out.println(vInfo.getBottleDetectNumber());
-		String json;
-		if(rc==1){
-			json ="{\"isSuccess\":\"true\"}";
-		}else{
-			json ="{\"isSuccess\":\"false\"}";
-		}
-		OutputStream stream = response.getOutputStream();
-		stream.write(json.getBytes("UTF-8"));
+		this.doGet(request,response);
 	}
 
 }

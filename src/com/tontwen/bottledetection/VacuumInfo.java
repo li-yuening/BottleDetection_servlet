@@ -7,6 +7,7 @@ public class VacuumInfo {
 	private String vacuumPressure;
 	private String vacuumResult;
 	private String operatorName;
+	private String yrs;
 	public String getBottleDetectNumber() {
 		return bottleDetectNumber;
 	}
@@ -43,6 +44,13 @@ public class VacuumInfo {
 	public void setOperatorName(String operatorName) {
 		this.operatorName = operatorName;
 	}
+	public String getYrs() {
+		return yrs;
+	}
+	public void setYrs(String yrs) {
+		this.yrs = yrs;
+	}
+	
 	
 	
 	

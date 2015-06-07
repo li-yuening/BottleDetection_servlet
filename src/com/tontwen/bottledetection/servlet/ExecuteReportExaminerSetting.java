@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tontwen.bottledetection.AirProofInfo;
-import com.tontwen.bottledetection.VacuumInfo;
+import com.tontwen.bottledetection.FinalReportInfo;
+import com.tontwen.bottledetection.InnerDryResult;
 import com.tontwen.database.UserDao;
 
 /**
- * Servlet implementation class ExecuteVacuum
+ * Servlet implementation class ExecuteReportExaminerSetting
  */
-public class ExecuteVacuum extends HttpServlet {
+public class ExecuteReportExaminerSetting extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExecuteVacuum() {
+    public ExecuteReportExaminerSetting() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,14 +44,13 @@ public class ExecuteVacuum extends HttpServlet {
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
     	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000022\",\"operatorName\":\"管理员\",\"vacuumPressure\":\"-50\","
-				+ "\"vacuumResult\":\"1\",\"yrs\":\"2\"}";
+		jsonString="{\"bottleDetectNumber\":\"CR15000020\",\"reportExaminer\":\"管理员\",\"reportChecker\":\"李越宁\"}";
 		System.out.println(jsonString);
 		
-		VacuumInfo vInfo= new Gson().fromJson(jsonString, new TypeToken<VacuumInfo>(){}.getType());
+		FinalReportInfo frInfo= new Gson().fromJson(jsonString, new TypeToken<FinalReportInfo>(){}.getType());
 		UserDao ud = new UserDao();
-		int rc=ud.executeVacuum(vInfo);
-		System.out.println(vInfo.getBottleDetectNumber());
+		int rc=ud.executeReportExaminerSetting(frInfo);
+		System.out.println(frInfo.getBottleDetectNumber());
 		String json;
 		if(rc==1){
 			json ="{\"isSuccess\":\"true\"}";
