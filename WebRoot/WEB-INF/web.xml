@@ -72,7 +72,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteGlobalDetection</servlet-name>
-    <url-pattern>/ExecuteGlobalDetection</url-pattern>
+    <url-pattern>/servlet/ExecuteGlobalDetection</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -82,7 +82,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteNoneDestructiveDetection</servlet-name>
-    <url-pattern>/ExecuteNoneDestructiveDetection</url-pattern>
+    <url-pattern>/servlet/ExecuteNoneDestructiveDetection</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -92,7 +92,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>NoneDestructiveDetect</servlet-name>
-    <url-pattern>/NoneDestructiveDetect</url-pattern>
+    <url-pattern>/servlet/NoneDestructiveDetect</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -102,7 +102,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>WaterTest</servlet-name>
-    <url-pattern>/WaterTest</url-pattern>
+    <url-pattern>/servlet/WaterTest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -112,7 +112,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteWaterTest</servlet-name>
-    <url-pattern>/ExecuteWaterTest</url-pattern>
+    <url-pattern>/servlet/ExecuteWaterTest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -122,7 +122,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>InnerDry</servlet-name>
-    <url-pattern>/InnerDry</url-pattern>
+    <url-pattern>/servlet/InnerDry</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -132,7 +132,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteInnerDry</servlet-name>
-    <url-pattern>/ExecuteInnerDry</url-pattern>
+    <url-pattern>/servlet/ExecuteInnerDry</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -142,7 +142,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>BottleValveChange</servlet-name>
-    <url-pattern>/BottleValveChange</url-pattern>
+    <url-pattern>/servlet/BottleValveChange</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -152,7 +152,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteBottleValveChange</servlet-name>
-    <url-pattern>/ExecuteBottleValveChange</url-pattern>
+    <url-pattern>/servlet/ExecuteBottleValveChange</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -162,7 +162,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ValveInfoQuery</servlet-name>
-    <url-pattern>/ValveInfoQuery</url-pattern>
+    <url-pattern>/servlet/ValveInfoQuery</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -172,7 +172,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AddValve</servlet-name>
-    <url-pattern>/AddValve</url-pattern>
+    <url-pattern>/servlet/AddValve</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -182,7 +182,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DeleteValve</servlet-name>
-    <url-pattern>/DeleteValve</url-pattern>
+    <url-pattern>/servlet/DeleteValve</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -192,7 +192,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AirProofTest</servlet-name>
-    <url-pattern>/AirProofTest</url-pattern>
+    <url-pattern>/servlet/AirProofTest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -202,7 +202,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteAirProofTest</servlet-name>
-    <url-pattern>/ExecuteAirProofTest</url-pattern>
+    <url-pattern>/servlet/ExecuteAirProofTest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -212,7 +212,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AirProofMethodQuery</servlet-name>
-    <url-pattern>/AirProofMethodQuery</url-pattern>
+    <url-pattern>/servlet/AirProofMethodQuery</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -222,7 +222,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AddAirProofTestMethod</servlet-name>
-    <url-pattern>/AddAirProofTestMethod</url-pattern>
+    <url-pattern>/servlet/AddAirProofTestMethod</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -232,7 +232,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DeleteAirProofTestMethod</servlet-name>
-    <url-pattern>/DeleteAirProofTestMethod</url-pattern>
+    <url-pattern>/servlet/DeleteAirProofTestMethod</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -242,7 +242,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Vacuum</servlet-name>
-    <url-pattern>/Vacuum</url-pattern>
+    <url-pattern>/servlet/Vacuum</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -252,6 +252,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteVacuum</servlet-name>
-    <url-pattern>/ExecuteVacuum</url-pattern>
+    <url-pattern>/servlet/ExecuteVacuum</url-pattern>
   </servlet-mapping>
 </web-app>
