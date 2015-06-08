@@ -755,8 +755,8 @@ public class UserDao {
 
 		ArrayList<FinalReportInfo> list  = new ArrayList<FinalReportInfo>();
 		String sql ="select BottleDetectNumber, BottleDetectInfo.BottleNumber, CarNumber, ReportExaminer,"
-				+ "ReportChecker,FinalDetectDate,BottleNextCheckDate from BottleInfo, BottleDetectInfo "
-				+ "where BottleInfo.BottleNumber=BottleDetectInfo.BottleNumber and FinalDetectResult<>'合格'";
+				+ "ReportChecker,FinalDetectResult,FinalDetectDate,BottleNextCheckDate from BottleInfo, BottleDetectInfo "
+				+ "where BottleInfo.BottleNumber=BottleDetectInfo.BottleNumber and FinalDetectResult<>'-'";
 		String[] parameters =null;
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
@@ -767,6 +767,7 @@ public class UserDao {
 				fri.setCarNumber(rs.getString("CarNumber"));
 				fri.setReportExaminer(rs.getString("ReportExaminer"));
 				fri.setReportChecker(rs.getString("ReportChecker"));
+				fri.setFinalDetectResult(rs.getString("FinalDetectResult"));
 				fri.setFinalDetectDate(rs.getString("FinalDetectDate"));
 				fri.setBottleNextCheckDate(rs.getString("BottleNextCheckDate"));
 				list.add(fri);
