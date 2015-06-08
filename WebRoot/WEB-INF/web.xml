@@ -262,7 +262,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>FinalReport</servlet-name>
-    <url-pattern>/FinalReport</url-pattern>
+    <url-pattern>/servlet/FinalReport</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -272,6 +272,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ExecuteReportExaminerSetting</servlet-name>
-    <url-pattern>/ExecuteReportExaminerSetting</url-pattern>
+    <url-pattern>/servlet/ExecuteReportExaminerSetting</url-pattern>
   </servlet-mapping>
 </web-app>
