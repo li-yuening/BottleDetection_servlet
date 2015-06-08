@@ -43,7 +43,7 @@ public class ExecuteGlobalDetection extends HttpServlet {
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
     	jsonString = request.getParameter("content");
-//		jsonString="{\"bottleDetectNumber\":\"GP15000010\",\"bottleType\":\"0\",\"operatorName\":\"管理员\",\"detectDetailResult\":\"111\",\"appearDetail\":null,\"soundDetail\":null,\"whorlDetail\":null,\"innerDetail\":null,\"globalSub5Detail\":null,\"globalSub6Detail\":null}";
+//		jsonString="{\"bottleDetectNumber\":\"GP15000010\",\"bottleType\":\"0\",\"operatorName\":\"管理员\",\"detectDetailResult\":\"111111\",\"appearDetail\":\"ds\",\"soundDetail\":null,\"whorlDetail\":null,\"innerDetail\":null,\"globalSub5Detail\":null,\"globalSub6Detail\":null}";
 		System.out.println(jsonString);
 		
 		GlobalDetectionResult gdResult= new Gson().fromJson(jsonString, new TypeToken<GlobalDetectionResult>(){}.getType());

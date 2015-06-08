@@ -27,6 +27,16 @@ public class DBUtil {
 		}
 	}
 	
+	public static void setCommit(){
+		try {
+			conn = DriverManager.getConnection(url,username,password);
+			conn.setAutoCommit(false);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	//make connection
 	public static Connection getConnection(){
 		try {
@@ -102,6 +112,22 @@ public class DBUtil {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+	
+	public static int executeUpdate(String sql){
+		int t=0;
+		try {
+			Statement statement=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+		    		ResultSet.CONCUR_UPDATABLE);
+			System.out.println("dbutil");
+			conn.setAutoCommit(false);
+			t=statement.executeUpdate(sql);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+		return t;
 	}
 	
 	public static Connection getConn() {

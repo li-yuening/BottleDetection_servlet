@@ -44,8 +44,8 @@ public class ExecuteVacuum extends HttpServlet {
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
     	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000022\",\"operatorName\":\"管理员\",\"vacuumPressure\":\"-50\","
-				+ "\"vacuumResult\":\"1\",\"yrs\":\"2\"}";
+//		jsonString="{\"bottleDetectNumber\":\"GP15000010\",\"operatorName\":\"管理员\",\"vacuumPressure\":\"-10\","
+//				+ "\"vacuumResult\":\"1\",\"yrs\":\"3\"}";
 		System.out.println(jsonString);
 		
 		VacuumInfo vInfo= new Gson().fromJson(jsonString, new TypeToken<VacuumInfo>(){}.getType());

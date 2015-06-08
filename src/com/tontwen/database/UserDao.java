@@ -799,7 +799,7 @@ public class UserDao {
 				+ "GlobalDetectOperator=?, GlobalDetectDate=?, GlobalSub1=?, GlobalSub2=?, GlobalSub3=?, GlobalSub4=?,"
 				+ "GlobalSub5=?, GlobalSub6=?, GlobalSub5Detail=?, GlobalSub6Detail=?, FailPos=? "
 				+ "where BottleDetectNumber=?";
-		if(gdr.getBottleType()=="0"){
+		if(gdr.getBottleType().equals("0")){
 			int globalDetectResult0;
 			String str="111111";
 			if(detectDetailResult.equals(str)){
@@ -864,7 +864,7 @@ public class UserDao {
 		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, NoneDestructivePositon=?, "
 				+ "NoneDestructiveDetail=?, NoneDestructiveResult=?, NoneDestructiveOver=?, NoneDestructiveOperator=?, "
 				+ "NoneDestructiveDate=?, FailPos=? where BottleDetectNumber=?";
-		if(result=="0"){
+		if(result.equals("0")){
 			String[] parameters={"判废",nowTime,nddr.getNoneDestructivePosition(),nddr.getNoneDestructiveDetail(),"0","1",nddr.getOperatorName(),nowTime,"WS",nddr.getBottleDetectNumber()};
 			DBUtil.executeUpdate(sql, parameters);
 		}else{
@@ -885,7 +885,7 @@ public class UserDao {
 		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, "
 				+ "WaterTestResult=?, WaterTestOver=?,  WaterTestOperator=?, "
 				+ "WaterTestDate=?, FailPos=? where BottleDetectNumber=?";
-		if(result=="0"){
+		if(result.equals("0")){
 			String[] parameters={"判废",nowTime,"0","1",wtr.getOperatorName(),nowTime,"WT",wtr.getBottleDetectNumber()};
 			DBUtil.executeUpdate(sql, parameters);
 		}else{
@@ -960,7 +960,7 @@ public class UserDao {
 		sql="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, AirProofTestMethod=?, AirProofTestMedium=?, "
 				+ "AirProofTestTemp=?, AirProofTestPressure=?, AirProofTestKeepTime=?, AirProofTestResult=?, AirProofTestOperator=?, "
 				+ "AirProofTestOver=1, AirProofTestDate=?, FailPos=? where BottleDetectNumber=?";
-		if(api.getAirProofTestResult()=="判废"){
+		if(api.getAirProofTestResult().equals("判废")){
 			String[] parameters={"判废",nowTime,api.getAirProofTestMethod(),api.getAirProofTestMedium(),api.getAirProofTestTemp(),
 					api.getAirProofTestPressure(),api.getAirProofTestKeepTime(),api.getAirProofTestResult(),
 					api.getOperatorName(),nowTime,"QM",api.getBottleDetectNumber()};
@@ -1015,23 +1015,39 @@ public class UserDao {
 		String futureTime = simpleDateFormat.format(dt2);
 		System.out.println(futureTime);
 		String result=vi.getVacuumResult();
-		String sql1="",sql2="",sql3="";
-		sql1="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, VacuumPressure=?, VacuumOver=?, "
-				+ "VacuumOperator=?, VacuumDate=? where BottleDetectNumber=?";
-		sql2="update BottleInfo set BottleNextCheckDate=? where BottleNumber= (select BottleNumber from BottleDetectInfo "
-				+ "where BottleDetectNumber=?)";
-		String[] parameters2={futureTime,vi.getBottleDetectNumber()};
-	    if(result=="0"){
-			String[] parameters1={"-",null,vi.getVacuumPressure(),"0",null,null,vi.getBottleDetectNumber()};
-			DBUtil.executeUpdate(sql1, parameters1);
-			DBUtil.executeUpdate(sql2, parameters2);
-		}else{
-			String[] parameters1={"合格",nowTime,vi.getVacuumPressure(),"1",vi.getOperatorName(),nowTime,vi.getBottleDetectNumber()};
-			DBUtil.executeUpdate(sql1, parameters1);
-			DBUtil.executeUpdate(sql2, parameters2);
+		System.out.println(result);
+		String sql1="",sql2="";
+		try{
+			sql1="update BottleDetectInfo set FinalDetectResult=?, FinalDetectDate=?, VacuumPressure=?, VacuumOver=?, "
+					+ "VacuumOperator=?, VacuumDate=? where BottleDetectNumber=?";
+			sql2="update BottleInfo set BottleNextCheckDate='"+futureTime+"' where BottleNumber= (select BottleNumber from BottleDetectInfo "
+					+ "where BottleDetectNumber='"+vi.getBottleDetectNumber()+"')";
+			DBUtil.getConn();
+			DBUtil.setCommit();
+			if(result.equals("0")){
+				sql1="update BottleDetectInfo set FinalDetectResult='"+"-"+"', FinalDetectDate="+null+", "
+						+ "VacuumPressure='"+vi.getVacuumPressure()+"', VacuumOver="+0+", "
+						+ "VacuumOperator="+null+", VacuumDate="+null+" where BottleDetectNumber='"+vi.getBottleDetectNumber()+"'";
+				rc1=DBUtil.executeUpdate(sql1);
+				rc2=DBUtil.executeUpdate(sql2);
+			}else{
+				sql1="update BottleDetectInfo set FinalDetectResult='"+"合格"+"', FinalDetectDate='"+nowTime+"', "
+						+ "VacuumPressure='"+vi.getVacuumPressure()+"', VacuumOver="+1+", "
+						+ "VacuumOperator='"+vi.getOperatorName()+"', VacuumDate='"+nowTime+"' where BottleDetectNumber='"+vi.getBottleDetectNumber()+"'";
+				rc1=DBUtil.executeUpdate(sql1);
+				rc2=DBUtil.executeUpdate(sql2);
+			}
+			if(rc1>0&&rc2>0){
+				DBUtil.getConn().commit();
+				rc=1;
+			}else{
+				DBUtil.getConn().rollback();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 		}
-		rc=1;
-		DBUtil.close(DBUtil.getConn(), DBUtil.getPs(), DBUtil.getRs());
 		return rc;
 	}
 	
