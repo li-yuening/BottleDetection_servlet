@@ -756,7 +756,7 @@ public class UserDao {
 		ArrayList<FinalReportInfo> list  = new ArrayList<FinalReportInfo>();
 		String sql ="select BottleDetectNumber, BottleDetectInfo.BottleNumber, CarNumber, ReportExaminer,"
 				+ "ReportChecker,FinalDetectResult,FinalDetectDate,BottleNextCheckDate from BottleInfo, BottleDetectInfo "
-				+ "where BottleInfo.BottleNumber=BottleDetectInfo.BottleNumber and FinalDetectResult<>'-'";
+				+ "where BottleInfo.BottleNumber=BottleDetectInfo.BottleNumber and FinalDetectResult<>'-' order by FinalDetectDate desc";
 		String[] parameters =null;
 		ResultSet rs = DBUtil.executeQuery(sql, parameters);
 		try {
