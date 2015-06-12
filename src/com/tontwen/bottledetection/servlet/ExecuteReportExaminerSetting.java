@@ -44,7 +44,7 @@ public class ExecuteReportExaminerSetting extends HttpServlet {
 		String jsonString = "";
 		request.setCharacterEncoding("UTF-8");
     	jsonString = request.getParameter("content");
-		jsonString="{\"bottleDetectNumber\":\"CR15000020\",\"reportExaminer\":\"管理员\",\"reportChecker\":\"李越宁\"}";
+//		jsonString="{\"bottleDetectNumber\":\"CR15000020\",\"reportExaminer\":\"管理员\",\"reportChecker\":\"李越宁\"}";
 		System.out.println(jsonString);
 		
 		FinalReportInfo frInfo= new Gson().fromJson(jsonString, new TypeToken<FinalReportInfo>(){}.getType());

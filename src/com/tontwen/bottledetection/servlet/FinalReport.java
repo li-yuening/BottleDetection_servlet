@@ -38,7 +38,7 @@ public class FinalReport extends HttpServlet {
 		list=ud.executeFinalReportWaitedBottleQuery();
 //		System.out.println(list.get(0).getBottleNumber()+" "+list.get(0).getCarNumber());
 		String json = new Gson().toJson(list);
-		System.out.println(json);
+//		System.out.println(json);
 		OutputStream stream = response.getOutputStream();
 		stream.write(json.getBytes("UTF-8"));
 	}
